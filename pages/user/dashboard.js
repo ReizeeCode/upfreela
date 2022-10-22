@@ -45,7 +45,7 @@ export default function Home() {
         <Grid container spacing={4}> {/* espaçamento entre os containers */}
           <Grid item xs={12} sm={6} md={4}> {/* responsividade entre telas */}
             <Card>
-              <CardMedia 
+              <CardMedia
                 className={classes.cardMedia}
                 image={'https://source.unsplash.com/random'}
                 title='Titulo da imagem'
