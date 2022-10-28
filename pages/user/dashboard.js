@@ -15,9 +15,6 @@ import TemplateDefault from '../../src/templates/Default'
 
 // cria css para a página dashboard 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    padding: theme.spacing(8, 0, 6) //top: 8, laterais: 0 e bottom: 6
-  },
   cardMedia: {
     paddingTop: '56%',
   },
@@ -33,7 +30,7 @@ export default function Home() {
   return (
     <TemplateDefault>
       {/* deixa a tela em tamanho 'small' */}
-      <Container maxWidth="sm" className={classes.container}> 
+      <Container maxWidth="sm"> 
         <Typography component="h1" variant="h2" align="center">
           Meus Anúncios
         </Typography>
