@@ -29,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
   },
   divider:{
     margin: '8px 0'
+  },
+  navBar:{
+    backgroundColor: '#031867'
   }
 }));
 
@@ -41,7 +44,7 @@ export default function ButtonAppBar() {
 
   return (
     <>
-      <AppBar position="static" elevation={3}>
+      <AppBar position="static" elevation={3} className={classes.navBar}>
         <Container maxWidth="lg">
           <Toolbar>
             <Typography variant="h6" className={classes.title}>

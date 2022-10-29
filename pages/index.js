@@ -1,21 +1,16 @@
-import {  
-    Button,
-    Card,
-    CardActions,
-    CardMedia,
-    CardContent,
-    
+import {      
     Container, 
     Grid, 
     IconButton, 
     InputBase, 
-    makeStyles, 
     Paper, 
     Typography 
 } from '@material-ui/core'
 
+import { makeStyles } from '@material-ui/core/styles'
 import SearchIcon from '@material-ui/icons/search'
 import TemplateDefault from '../src/templates/Default'
+import Card from '../src/components/Card'
 
 const useStyles = makeStyles((theme) => ({
     searchBox:{
@@ -24,8 +19,8 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(0, 2),
         marginTop: '20px',
     },
-    cardMedia: {
-        paddingTop: '56%',
+    cardGrid:{
+        marginTop: '25px'
     }
 }))
 
@@ -56,55 +51,25 @@ const Home = () => {
                 <br />
                 <Grid container spacing={4}> {/* espaçamento entre os containers */}
                     <Grid item xs={12} sm={6} md={4}> {/* responsividade entre telas */}
-                        <Card>
-                        <CardMedia
-                            className={classes.cardMedia}
-                            image={'https://source.unsplash.com/random'}
-                            title='Titulo da imagem'
-                        />
-                        <CardContent>
-                            <Typography variant="h5" component="h2">
-                            Produto X
-                            </Typography>
-                            <Typography>
-                            R$ 60,00
-                            </Typography>
-                        </CardContent>
-                        </Card>
+                    <Card 
+                        image={'https://source.unsplash.com/random'}
+                        title="Serviço X"
+                        subtitle="5 dias"
+                    />
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
-                        <Card>
-                        <CardMedia 
-                            className={classes.cardMedia}
+                        <Card 
                             image={'https://source.unsplash.com/random'}
-                            title='Titulo da imagem'
+                            title="Serviço X"
+                            subtitle="5 dias"
                         />
-                        <CardContent>
-                            <Typography variant="h5" component="h2">
-                            Produto X
-                            </Typography>
-                            <Typography>
-                            R$ 60,00
-                            </Typography>
-                        </CardContent>
-                        </Card>
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
-                        <Card>
-                        <CardMedia 
-                            className={classes.cardMedia}
+                        <Card 
                             image={'https://source.unsplash.com/random'}
-                            title='Titulo da imagem'
+                            title="Serviço X"
+                            subtitle="5 dias"
                         />
-                        <CardContent>
-                            <Typography variant="h5" component="h2">
-                            Produto X
-                            </Typography>
-                            <Typography>
-                            R$ 60,00
-                            </Typography>
-                        </CardContent>
-                        </Card>
                     </Grid>
                 </Grid>
             </Container>
