@@ -45,7 +45,25 @@ export default function Home() {
                       Editar
                     </Button>
                     <Button size="small" color="primary">
-                      Remover
+                      Inativar
+                    </Button>
+                  </>
+                }
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={4}> {/* responsividade entre telas */}
+            <Card 
+                image={'https://source.unsplash.com/random'}
+                title="Serviço X"
+                subtitle="5 dias"
+                actions={
+                  <>
+                    <Button size="small" color="primary">
+                      Inativar
+                    </Button>
+                    <Button size="small" color="primary">
+                      Inativar
                     </Button>
                   </>
                 }
@@ -63,25 +81,7 @@ export default function Home() {
                       Editar
                     </Button>
                     <Button size="small" color="primary">
-                      Remover
-                    </Button>
-                  </>
-                }
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={4}> {/* responsividade entre telas */}
-            <Card 
-                image={'https://source.unsplash.com/random'}
-                title="Serviço X"
-                subtitle="5 dias"
-                actions={
-                  <>
-                    <Button size="small" color="primary">
-                      Editar
-                    </Button>
-                    <Button size="small" color="primary">
-                      Remover
+                      Inativar
                     </Button>
                   </>
                 }
