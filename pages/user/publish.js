@@ -7,9 +7,12 @@ import {
   Button,
   Container,
   IconButton,
+  MenuItem,
   Select,
   TextField,
-  Typography
+  Typography,
+  FormControl,
+  FormHelperText
 } from '@material-ui/core'
 
 import { useDropzone } from 'react-dropzone'
@@ -84,7 +87,9 @@ const Publish = () => {
     title: yup.string()
       .min(6, 'Escreva um título com uma quantidade maior de caracteres')
       .max(100, 'Escreva um título com uma quantidade menor de caracteres')
-      .required('Campo obrigatório'),
+      .required('Obrigatório'),
+    
+    nameService: yup.string().required('Obrigatório')
   })
 
   const classes = useStyles()
@@ -116,7 +121,8 @@ const Publish = () => {
     <TemplateDefault>
       <Formik
         initialValues={{
-          title: ''
+          title: '',
+          nameService: ''
         }} //valores iniciais
         validationSchema={validationSchema} //isto é uma função
         onSubmit={(values) => {
@@ -163,23 +169,25 @@ const Publish = () => {
 
                     <br /> <br />
                     <Typography component="h6" variant="h6" color="textPrimary">
-                      Categoria
+                      Serviço
                     </Typography>
-                    <Select
-                      native
-                      value=""
-                      fullWidth
-                      onChange={() => { }}
-                      inputProps={{
-                        name: 'age',
-                      }}
-                    >
-                      <option value="">Selecione</option>
-                      <option value={1}>Pintura</option>
-                      <option value={2}>Eletricista</option>
-                      <option value={3}>Pedreiro</option>
-                      <option value={4}>Encanador</option>
-                    </Select>
+                    <FormControl error={errors.nameService} fullWidth>
+                      <Select
+                        name="nameService"
+                        value={values.category}
+                        fullWidth
+                        onChange={handleChange}
+
+                      >
+                        <MenuItem value="Pintura">Pintura</MenuItem>
+                        <MenuItem value="Eletricista">Eletricista</MenuItem>
+                        <MenuItem value="Pedreiro">Pedreiro</MenuItem>
+                        <MenuItem value="Encanador">Encanador</MenuItem>
+                      </Select>
+                      <FormHelperText>
+                        { errors.nameService}
+                      </FormHelperText>
+                    </FormControl>
                   </Box>
                 </Container>
 
