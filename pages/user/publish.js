@@ -12,7 +12,9 @@ import {
   TextField,
   Typography,
   FormControl,
-  FormHelperText
+  FormHelperText,
+  Input,
+  InputLabel
 } from '@material-ui/core'
 
 import { useDropzone } from 'react-dropzone'
@@ -37,6 +39,10 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap',
     marginTop: 15,
   },
+  inputLabel: {
+    fontWeight: 400,
+    color: theme.palette.primary.main,
+  },
   dropzone: {
     display: 'flex',
     justifyContent: 'center',
@@ -47,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     height: 150,
     margin: '0 15px 15px 0',
     backgroundColor: theme.palette.background.default,
-    border: '2px dashed black'
+    border: '2px dashed black',
   },
   thumb: {
     position: 'relative',
@@ -87,9 +93,13 @@ const Publish = () => {
     title: yup.string()
       .min(6, 'Escreva um título com uma quantidade maior de caracteres')
       .max(100, 'Escreva um título com uma quantidade menor de caracteres')
-      .required('Obrigatório'),
-    
-    nameService: yup.string().required('Obrigatório')
+      .required('Campo requerido'),
+
+    nameService: yup.string().required('Campo requerido'),
+
+    description: yup.string()
+      .min(30, 'Escreva um título com mais de 30 caracteres')
+      .required('Campo requerido'),
   })
 
   const classes = useStyles()
@@ -122,7 +132,8 @@ const Publish = () => {
       <Formik
         initialValues={{
           title: '',
-          nameService: ''
+          nameService: '',
+          description: ''
         }} //valores iniciais
         validationSchema={validationSchema} //isto é uma função
         onSubmit={(values) => {
@@ -151,33 +162,32 @@ const Publish = () => {
 
                 <br /><br />
 
+                {/* Container do campo Título e Serviço */}
                 <Container maxWidth="md" className={classes.boxContainer}>
                   <Box className={classes.box}>
-                    <Typography component="h6" variant="h6" color="textPrimary">
-                      Título do Anúncio
-                    </Typography>
-                    <TextField
-                      name="title"
-                      value={values.title}
-                      onChange={handleChange}
-                      label="ex.: Preciso de pedreiro para reforma do banheiro"
-                      size="small"
-                      fullWidth={true} //(ocupa área toda do box)
-                      error={errors.title} //confere se existe algo em title
-                      helperText={errors.title} //texto que aparece no campo, exemplo: campo obrigatorio, puxando a informação do errors
-                    />
 
+                    <FormControl error={errors.title} fullWidth>
+                      <InputLabel className={classes.inputLabel}>Título do Anúncio</InputLabel>
+                      <Input
+                        name="title"
+                        value={values.title}
+                        onChange={handleChange}
+                        label="ex.: Preciso de um Pintor para uma parede 4X4"
+                      />
+                      <FormHelperText>
+                        {errors.title}
+                      </FormHelperText>
+                    </FormControl>
+                    
                     <br /> <br />
-                    <Typography component="h6" variant="h6" color="textPrimary">
-                      Serviço
-                    </Typography>
+
                     <FormControl error={errors.nameService} fullWidth>
+                      <InputLabel className={classes.inputLabel}>Serviço</InputLabel>
                       <Select
                         name="nameService"
-                        value={values.category}
+                        value={values.nameService}
                         fullWidth
                         onChange={handleChange}
-
                       >
                         <MenuItem value="Pintura">Pintura</MenuItem>
                         <MenuItem value="Eletricista">Eletricista</MenuItem>
@@ -185,12 +195,14 @@ const Publish = () => {
                         <MenuItem value="Encanador">Encanador</MenuItem>
                       </Select>
                       <FormHelperText>
-                        { errors.nameService}
+                        {errors.nameService}
                       </FormHelperText>
                     </FormControl>
+
                   </Box>
                 </Container>
 
+                {/* Container de Imagens */}
                 <Container maxWidth="md" className={classes.boxContainer}>
                   <Box className={classes.box}>
                     <Typography component="h6" variant="h6" color="textPrimary">
@@ -236,23 +248,26 @@ const Publish = () => {
                   </Box>
                 </Container>
 
+                {/* Container do campo Descrição */}
                 <Container maxWidth="md" className={classes.boxContainer}>
                   <Box className={classes.box}>
-                    <Typography component="h6" variant="h6" color="textPrimary">
-                      Descrição
-                    </Typography>
-                    <Typography component="div" variant="body2" color="textPrimary">
-                      Escreva os detalhes do que está precisando.
-                    </Typography>
-                    <TextField
-                      multiline
-                      minRows={6}
-                      variant="outlined"
-                      fullWidth
-                    />
+                    <FormControl error={errors.description} fullWidth>
+                      <InputLabel className={classes.inputLabel}>Escreva os detalhes do que está vendendo</InputLabel>
+                      <Input
+                        name="description"
+                        multiline
+                        rows={6}
+                        variant="outlined"
+                        onChange={handleChange}
+                      />
+                      <FormHelperText>
+                        { errors.description }
+                      </FormHelperText>
+                    </FormControl>
                   </Box>
                 </Container>
 
+                {/* Container de contato */}
                 <Container maxWidth="md" className={classes.boxContainer}>
                   <Box className={classes.box}>
                     <Typography component="h6" variant="h6" color="textPrimary" gutterBottom>
