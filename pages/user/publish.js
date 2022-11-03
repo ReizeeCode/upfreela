@@ -95,11 +95,22 @@ const Publish = () => {
       .max(100, 'Escreva um título com uma quantidade menor de caracteres')
       .required('Campo requerido'),
 
-    nameService: yup.string().required('Campo requerido'),
+    service: yup.string()
+      .required('Campo requerido'),
 
     description: yup.string()
       .min(30, 'Escreva um título com mais de 30 caracteres')
       .required('Campo requerido'),
+
+    email: yup.string()
+      .email('Digite um e-mail válido')
+      .required('Campo requerido'),
+
+    name: yup.string()
+      .required('Campo requerido'),
+
+    phone: yup.number()
+      .required('Campo requerido')
   })
 
   const classes = useStyles()
@@ -132,8 +143,11 @@ const Publish = () => {
       <Formik
         initialValues={{
           title: '',
-          nameService: '',
-          description: ''
+          service: '',
+          description: '',
+          email: '',
+          name: '',
+          phone: ''
         }} //valores iniciais
         validationSchema={validationSchema} //isto é uma função
         onSubmit={(values) => {
@@ -178,14 +192,14 @@ const Publish = () => {
                         {errors.title}
                       </FormHelperText>
                     </FormControl>
-                    
+
                     <br /> <br />
 
-                    <FormControl error={errors.nameService} fullWidth>
+                    <FormControl error={errors.service} fullWidth>
                       <InputLabel className={classes.inputLabel}>Serviço</InputLabel>
                       <Select
-                        name="nameService"
-                        value={values.nameService}
+                        name="service"
+                        value={values.service}
                         fullWidth
                         onChange={handleChange}
                       >
@@ -195,7 +209,7 @@ const Publish = () => {
                         <MenuItem value="Encanador">Encanador</MenuItem>
                       </Select>
                       <FormHelperText>
-                        {errors.nameService}
+                        {errors.service}
                       </FormHelperText>
                     </FormControl>
 
@@ -261,7 +275,7 @@ const Publish = () => {
                         onChange={handleChange}
                       />
                       <FormHelperText>
-                        { errors.description }
+                        {errors.description}
                       </FormHelperText>
                     </FormControl>
                   </Box>
@@ -273,26 +287,46 @@ const Publish = () => {
                     <Typography component="h6" variant="h6" color="textPrimary" gutterBottom>
                       Dados de contato
                     </Typography>
-                    <TextField
-                      label="Nome"
-                      variant="outlined"
-                      size="small"
-                      fullWidth
-                    />
+                    <FormControl error={errors.name} fullWidth>
+                      <InputLabel className={classes.inputLabel}>Nome</InputLabel>
+                      <Input
+                        name="name"
+                        value={values.name}
+                        onChange={handleChange}
+                      />
+                      <FormHelperText>
+                        {errors.name}
+                      </FormHelperText>
+                    </FormControl>
+
                     <br /> <br />
-                    <TextField
-                      label="Telefone"
-                      variant="outlined"
-                      size="small"
-                      fullWidth
-                    />
+
+                    <FormControl error={errors.phone} fullWidth>
+                      <InputLabel className={classes.inputLabel}>Telefone</InputLabel>
+                      <Input
+                        name="phone"
+                        value={values.phone}
+                        onChange={handleChange}
+                      />
+                      <FormHelperText>
+                        {errors.phone}
+                      </FormHelperText>
+                    </FormControl>
+
                     <br /> <br />
-                    <TextField
-                      label="E-mail"
-                      variant="outlined"
-                      size="small"
-                      fullWidth
-                    />
+
+                    <FormControl error={errors.email} fullWidth>
+                      <InputLabel className={classes.inputLabel}>Email</InputLabel>
+                      <Input
+                        name="email"
+                        value={values.email}
+                        onChange={handleChange}
+                      />
+                      <FormHelperText>
+                        {errors.email}
+                      </FormHelperText>
+                    </FormControl>
+
                   </Box>
                 </Container>
 
