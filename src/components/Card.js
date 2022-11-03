@@ -1,5 +1,5 @@
 import {
-    Card as CardMUI,
+    Card as CardMUI, // para nao dar conflito com a declaração do componente
     CardMedia,
     CardContent,
     Typography,

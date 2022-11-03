@@ -128,7 +128,7 @@ const Publish = () => {
           email: '',
           name: '',
           phone: '',
-          files: [],
+          files: [], // isso é um array de imagens
         }} //valores iniciais
         validationSchema={validationSchema} //isto é uma função
         onSubmit={(values) => {
@@ -144,7 +144,7 @@ const Publish = () => {
             errors, //informa se existe o erro
             handleChange,
             handleSubmit,
-            setFieldValue, //semelhante ao handleChange
+            setFieldValue, //semelhante ao handleChange, porém manual
           }) => {
 
             const { getRootProps, getInputProps } = useDropzone({
@@ -153,9 +153,12 @@ const Publish = () => {
 
                 const newFiles = acceptedFile.map(file => {
                   return Object.assign(file, {
-                    preview: URL.createObjectURL(file)
+                    preview: URL.createObjectURL(file) //faz o preview da imagem
                   })
                 })
+
+                // setFieldValue() recebe dois parametros(nome e valor do campo)
+                // injeta as imagens no formulário
 
                 setFieldValue('files', [
                   ...values.files, //mantém os files que já existem, caso existam
@@ -164,6 +167,7 @@ const Publish = () => {
               }
             })
 
+            //função para remover imagem
             const handleRemoveFile = fileName => {
               const newFileState = values.files.filter(file => file.name !== fileName)
               setFieldValue('files', newFileState)

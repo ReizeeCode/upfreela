@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '5px',
   },
   divider:{
-    margin: '8px 0'
+    margin: '8px 0' //8 na arte de cima e na parte de baixo e 0 nas laterais
   },
   navBar:{
     backgroundColor: '#031867'
@@ -40,7 +40,7 @@ export default function ButtonAppBar() {
   const classes = useStyles();
   const [anchorUserMenu, setAnchorUserMenu] = useState(false)
 
-  const openUserMenu = Boolean(anchorUserMenu)
+  const openUserMenu = Boolean(anchorUserMenu) // vai transformar anchorUserMenu em true or false
 
   return (
     <>
@@ -58,8 +58,8 @@ export default function ButtonAppBar() {
             <IconButton color="secondary" onClick={(e) => setAnchorUserMenu(e.currentTarget)}>  
               {
                 true === false
-                ? <Avatar src="" />
-                : <AccountCircle/>
+                ? <Avatar src="" /> // se tiver imagem, aparece o avatar
+                : <AccountCircle /> // caso nao tenha imagem, aparece uma padrao
               }
               <Typography variant="subtitle2" color="secondary" className={classes.userName}>
                 ReizeeCode
@@ -68,7 +68,7 @@ export default function ButtonAppBar() {
             <Menu
               anchorEl={anchorUserMenu}
               open={openUserMenu}
-              onClose={() => setAnchorUserMenu(null)}
+              onClose={() => setAnchorUserMenu(null)} //transforma em false e fecha o menu
               anchorOrigin={{
                 vertical: 'top',
                 horizontal: 'right',
