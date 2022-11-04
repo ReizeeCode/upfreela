@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   Container,
+  Input,
   MenuItem,
   Select,
   Typography,
@@ -26,8 +27,8 @@ const Publish = () => {
   return (
     <TemplateDefault>
       <Formik
-        initialValues={initialValues} //valores iniciais
-        validationSchema={validationSchema} //isto é uma função
+        initialValues={initialValues} //valores iniciais que estão sendo importados do formValues
+        validationSchema={validationSchema} //isto é uma função que está sendo importadas do formValues
         onSubmit={(values) => {
           console.log('Ok. enviou o form', values)
         }}
@@ -97,6 +98,7 @@ const Publish = () => {
                 </Container>
 
                 {/* Container de Imagens */}
+                {/* A lógica de upload de imagenm, os componentes visuais e seus estilos estão sendo importados, onde são enviados da pasta src/components/FileUpload/ */}
                 <Container maxWidth="md" className={classes.boxContainer}>
                   <Box className={classes.box}>
                     <FileUpload
