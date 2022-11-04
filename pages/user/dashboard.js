@@ -60,7 +60,7 @@ export default function Home() {
                 actions={
                   <>
                     <Button size="small" color="primary">
-                      Inativar
+                      Editar
                     </Button>
                     <Button size="small" color="primary">
                       Inativar

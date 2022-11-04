@@ -30,7 +30,8 @@ const validationSchema = yup.object().shape({
     name: yup.string()
       .required('Campo requerido'),
 
-    phone: yup.number()
+      phone: yup.number()
+      .typeError("Digite um número")
       .required('Campo requerido'),
 
     files: yup.array()
