@@ -27,7 +27,7 @@ const Signup = () => {
     const handleFormSubmit = async values => {
         const response = await axios.post('/api/users', values)
 
-        if (response.data.sucess) {
+        if (response.data.success) {
             setToasty({
                 open: true,
                 severity: 'success',

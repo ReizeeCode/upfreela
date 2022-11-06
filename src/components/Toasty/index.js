@@ -2,7 +2,7 @@ import {
     Snackbar,
 } from '@material-ui/core'
 
-//   Necessário essa importação para exibirmos os alertas (foi necessário instalação com o comando yarn add )
+// Necessário essa importação para exibirmos os alertas (foi necessário instalação com o comando yarn add )
 import MuiAlert from '@material-ui/lab/Alert'
 
 {/* O componente abaixo recebe o open que se trata de um booelan que verifica se é true ou false para realizar a abertura, o texto, A cor (severity) e o onclose que indica se desejamos passar uma função caso desejamos fechar*/}

@@ -7,11 +7,11 @@ const schema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: [true, 'O campo "nome" é obrigatório']
+        required: [true, 'O campo "e-mail" é obrigatório']
     },
     password: {
         type: String,
-        required: [true, 'O campo "nome" é obrigatório']
+        required: [true, 'O campo "senha" é obrigatório']
     },
 })
 

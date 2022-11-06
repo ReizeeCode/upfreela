@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt'
 
-/* A função abaixo faz a seguite operação de criptografia da seguinte forma: 
+/* A função abaixo faz a seguinte operação de criptografia da seguinte forma: 
    Recebe uma senha (pwd)
    Gera o hash
    Retorna o hash gerado
