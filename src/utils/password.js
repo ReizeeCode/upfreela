@@ -13,6 +13,13 @@ const crypto = async pwd => {
     return password
 }
 
+const compare = (pwd, hash) => {
+    const result = bcrypt.compare(pwd, hash)
+
+    return result //true or false
+}
+
 export {
     crypto,
+    compare,
 }
