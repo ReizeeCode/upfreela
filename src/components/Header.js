@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { signOut, useSession } from 'next-auth/client'
 import Link from 'next/link';
 
-import { AccountCircle, MenuIcon } from '@material-ui/icons';
+import { AccountCircle } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { 
@@ -24,8 +25,11 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
+  headButton: {
+    marginRight: '10px'
+  },
   userName:{
-    marginLeft: '5px',
+    marginLeft: '8px',
   },
   divider:{
     margin: '8px 0' //8 na arte de cima e na parte de baixo e 0 nas laterais
@@ -39,6 +43,7 @@ export default function ButtonAppBar() {
 
   const classes = useStyles();
   const [anchorUserMenu, setAnchorUserMenu] = useState(false)
+  const [ session ] = useSession()
 
   const openUserMenu = Boolean(anchorUserMenu) // vai transformar anchorUserMenu em true or false
 
@@ -48,23 +53,29 @@ export default function ButtonAppBar() {
         <Container maxWidth="lg">
           <Toolbar>
             <Typography variant="h6" className={classes.title}>
-              UpFrella
+              UpFreela
             </Typography>
-            <Link href="/user/publish" passHref>          
-              <Button color="inherit" variant="outlined">
+            {/* se tiver session vai para a pagina de publish, se nao leva para signin */}
+            <Link href={session ? '/user/publish' : '/auth/signin'} passHref> 
+              <Button color="inherit" variant="outlined" className={classes.headButton}>
                 Anunciar
               </Button>
             </Link>
-            <IconButton color="secondary" onClick={(e) => setAnchorUserMenu(e.currentTarget)}>  
-              {
-                true === false
-                ? <Avatar src="" /> // se tiver imagem, aparece o avatar
-                : <AccountCircle /> // caso nao tenha imagem, aparece uma padrao
-              }
-              <Typography variant="subtitle2" color="secondary" className={classes.userName}>
-                ReizeeCode
-              </Typography>
-            </IconButton>
+            {
+              session
+                ? (
+                  <IconButton color="secondary" onClick={(e) => setAnchorUserMenu(e.currentTarget)}>  
+                    {
+                      session.user.image
+                        ? <Avatar src={session.user.image} /> // se tiver imagem, aparece o avatar
+                        : <AccountCircle /> // caso nao tenha imagem, aparece uma padrao
+                    }
+                    <Typography variant="subtitle2" color="secondary" className={classes.userName}>
+                      {session.user.name}
+                    </Typography>
+                  </IconButton>
+                ) : null
+            }
             <Menu
               anchorEl={anchorUserMenu}
               open={openUserMenu}
@@ -81,7 +92,9 @@ export default function ButtonAppBar() {
                 <MenuItem>Publicar novo anúncio</MenuItem>
               </Link>
               <Divider className={classes.divider}/>
-              <MenuItem>Sair</MenuItem>
+              <MenuItem onClick={() => signOut({
+                callbackUrl: '/'
+              })}>Sair</MenuItem> {/* direciona para a home */}
             </Menu>
           </Toolbar>
         </Container>
