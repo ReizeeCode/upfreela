@@ -194,4 +194,7 @@ const Publish = () => {
   )
 }
 
+// autenticação obrigatória
+Publish.requireAuth = true
+
 export default Publish
