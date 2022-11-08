@@ -34,5 +34,20 @@ export default NextAuth({
     secret: process.env.JWT_TOKEN, // (JWT_TOKEN) - conjunto de caracteres
   },
 
+  callbacks: {
+    // assim que faz o login esse callback é executado
+    async jwt (token, user) {
+      if (user) {
+        token.uid = user.id;
+      }
+      return Promise.resolve(token)
+    },
+
+    async session(session, user){
+      session.userId = user.uid
+      return session
+    }
+  },
+
   database: process.env.MONGODB_URI,
 })

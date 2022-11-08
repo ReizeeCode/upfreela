@@ -16,12 +16,9 @@ const FileUpload = ({ files, errors, touched, setFieldValue }) => {
     const { getRootProps, getInputProps } = useDropzone({
         accept: 'image/*',
         onDrop: (acceptedFile) => { //função executada toda vez que uma imagem for selecionada
-
-            const newFiles = acceptedFile.map(file => {
-                return Object.assign(file, {
-                    preview: URL.createObjectURL(file) //faz o preview da imagem
-                })
-            })
+            const newFiles = acceptedFile.map(file => Object.assign(file, { // traz a referencia do arquivo binario
+                preview: URL.createObjectURL(file) //faz o preview da imagem
+            }))
 
             {/*setFieldValue() recebe dois parametros(nome e valor do campo)*/ }
             {/*injeta as imagens no formulário*/ }
@@ -34,8 +31,8 @@ const FileUpload = ({ files, errors, touched, setFieldValue }) => {
     })
 
     //função para remover imagem
-    const handleRemoveFile = fileName => {
-        const newFileState = files.filter(file => file.name !== fileName)
+    const handleRemoveFile = filePath => {
+        const newFileState = files.filter(file => file.path !== filePath)
         setFieldValue('files', newFileState)
     }
 

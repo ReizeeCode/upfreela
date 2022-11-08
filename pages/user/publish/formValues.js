@@ -14,29 +14,29 @@ const validationSchema = yup.object().shape({
     title: yup.string()
       .min(6, 'Escreva um título com uma quantidade maior de caracteres')
       .max(100, 'Escreva um título com uma quantidade menor de caracteres')
-      .required('Campo requerido'),
+      .required('Campo obrigatório'),
 
     service: yup.string()
-      .required('Campo requerido'),
+      .required('Campo obrigatório'),
 
     description: yup.string()
       .min(30, 'Escreva um título com mais de 30 caracteres')
-      .required('Campo requerido'),
+      .required('Campo obrigatório'),
 
     email: yup.string()
       .email('Digite um e-mail válido')
-      .required('Campo requerido'),
+      .required('Campo obrigatório'),
 
     name: yup.string()
-      .required('Campo requerido'),
+      .required('Campo obrigatório'),
 
-      phone: yup.number()
+    phone: yup.number()
       .typeError("Digite um número")
-      .required('Campo requerido'),
+      .required('Campo obrigatório'),
 
     files: yup.array()
       .min(1, 'Envie pelo menos uma foto')
-      .required('Campo requerido'),
+      .required('Campo obrigatório'),
 })
 
 //Exportando um objeto
