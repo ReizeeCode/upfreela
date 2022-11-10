@@ -21,26 +21,24 @@ const post = async (req, res) => {
         // desestruturação
         const { files } = data
 
-        // verifica se files é um array
-        const filesToRename = files instanceof Array
-            ? files // define files para filesToRename
-            : [files] //se for objeto, coloca dentro de um array 
-            // isso é uma garantia para que sempre seja um array
-        
+       // verifica se files é um array
+       const filesToRename = files instanceof Array
+       ? files // define files para filesToRename
+       : [files] //se for objeto, coloca dentro de um array 
+       // isso é uma garantia para que sempre seja um array
+
         const filesToSave = []
 
         filesToRename.forEach(file => {
             const timestamp = Date.now()
-            // gera um numero randomico 
+            // gera um número randomico
             const random = Math.floor(Math.random() * 99999999) + 1
-            
-            // retorna a extensao do arquivo (.png ou .jpeg)
-            const extension = path.extname(file.name)
+            const extension = path.extname(file.name) //retorna a extensão do arquivo .jpg ou .png
 
             const filename = `${timestamp}_${random}${extension}`
-
-            const oldpath = path.join(__dirname, `../../../${file.path}`)
-            const newpath = path.join(__dirname, `../../../${form.uploadDir}/${filename}`)
+            
+            const oldpath = path.join(__dirname, `../../../../${file.path}`)
+            const newpath = path.join(__dirname, `../../../../${form.uploadDir}/${filename}`)
 
             // isso vai para o banco de dados
             filesToSave.push({
@@ -50,27 +48,27 @@ const post = async (req, res) => {
 
             // renomeia o arquivo e muda o local
             fs.rename(oldpath, newpath, (error) => {
-                if (error){
-                    console.log('error: '+ error)
-                    return res.status(201).json({ success: true })
+                if (error) {
+                    console.log(error)
+                    return res.status(500).json({ success: true })
                 }
             })
         })
 
         const {
             title,
-            service,
+            category,
             description,
             name,
             email,
             phone,
             userId,
-            image
+            image,
         } = fields
 
-        const db_service = new ServicesModel({
+        const service = new ServicesModel({
             title,
-            service,
+            category,
             description,
             user: {
                 id: userId,
@@ -82,7 +80,7 @@ const post = async (req, res) => {
             files: filesToSave,
         })
 
-        const register = await db_service.save()
+        const register = await service.save()
 
         if (register) {
             res.status(201).json({ success: true })
@@ -93,5 +91,5 @@ const post = async (req, res) => {
 }
 
 export {
-    post,
+    post
 }

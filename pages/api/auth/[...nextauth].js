@@ -2,7 +2,6 @@ import axios from "axios"
 import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers'
 
-
 export default NextAuth({
   // Configure um ou mais fornecedores de autenticação (facebook, github, etc)
   providers: [
@@ -13,6 +12,7 @@ export default NextAuth({
         // encontrar, vai retornar 'true' e vai logar o usuário, se retornar 'false'
         // vai dar "null" e login inválido
         async authorize(credentials) {
+          {/* const res = await axios.post(`${APP_URL}/api/auth/signin`, credentials)*/}
           const res = await axios.post('http://localhost:3000/api/auth/signin', credentials)
 
           const user = res.data
@@ -33,17 +33,18 @@ export default NextAuth({
   jwt: {
     secret: process.env.JWT_TOKEN, // (JWT_TOKEN) - conjunto de caracteres
   },
-
+  
+  // assim que faz o login esse callback é executado
   callbacks: {
-    // assim que faz o login esse callback é executado
     async jwt (token, user) {
       if (user) {
         token.uid = user.id;
       }
+
       return Promise.resolve(token)
     },
 
-    async session(session, user){
+    async session(session, user) {
       session.userId = user.uid
       return session
     }

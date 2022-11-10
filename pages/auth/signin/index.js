@@ -33,6 +33,7 @@ const Signin = () => {
     signIn('credentials', {
       email: values.email,
       password: values.password,
+      // callbackUrl: `${APP_URL}/user/dashboard`
       callbackUrl: 'http://localhost:3000/user/dashboard' //direciona para dashboard
     })
   }

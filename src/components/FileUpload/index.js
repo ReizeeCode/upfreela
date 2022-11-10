@@ -17,8 +17,8 @@ const FileUpload = ({ files, errors, touched, setFieldValue }) => {
         accept: 'image/*',
         onDrop: (acceptedFile) => { //função executada toda vez que uma imagem for selecionada
             const newFiles = acceptedFile.map(file => Object.assign(file, { // traz a referencia do arquivo binario
-                preview: URL.createObjectURL(file) //faz o preview da imagem
-            }))
+                preview: URL.createObjectURL(file)
+            })) //faz o preview da imagem
 
             {/*setFieldValue() recebe dois parametros(nome e valor do campo)*/ }
             {/*injeta as imagens no formulário*/ }
@@ -52,7 +52,8 @@ const FileUpload = ({ files, errors, touched, setFieldValue }) => {
             }
             <Box className={classes.thumbsContainer}>
                 <Box className={classes.dropzone} {...getRootProps()}>
-                    <input name="files" {...getInputProps()} />
+                    {/* <input name="files" {...getInputProps()} /> */}
+                    <input {...getInputProps()} />              
                     <Typography variant="body2" color={errors && touched ? 'error' : 'textPrimary'}>
                         Clique para adicionar ou arraste a imagem aqui.
                     </Typography>

@@ -1,19 +1,20 @@
 import { Formik } from 'formik'
 import { useRouter } from 'next/router'
 import { getSession } from 'next-auth/client'
-import axios from "axios"
+import { useSession } from 'next-auth/client'
+import axios from 'axios'
 
 import {
-  Box,
-  Button,
   Container,
-  Input,
-  MenuItem,
-  Select,
   Typography,
+  Box,
+  Input,
+  Select,
+  Button,
   FormControl,
-  FormHelperText,
   InputLabel,
+  MenuItem,
+  FormHelperText,
   CircularProgress,
 } from '@material-ui/core'
 
@@ -33,8 +34,6 @@ const Publish = ({ userId, image }) => {
     ...initialValues,
   }
 
-  //console.log(formValues)
-
   formValues.userId = userId
   formValues.image = image
 
@@ -45,13 +44,13 @@ const Publish = ({ userId, image }) => {
       severity: 'success', //deixa o campo verde
     })
 
-    // router.push('/user/dashboard') // envia o anuncio e direciona para a dashboard
+    router.push('/user/publish') // envia o anuncio e direciona para a dashboard
   }
 
   const handleError = () => {
     setToasty({
       open: true,
-      text: 'Ocorreu um erro, tente novamente.',
+      text: 'Ops, ocorreu um erro, tente novamente.',
       severity: 'error', //deixa o campo vermelho
     })
   }
@@ -59,25 +58,21 @@ const Publish = ({ userId, image }) => {
   const handleSubmit = async (values) => {
     const formData = new FormData() // auxilia enviar os dados de forma correta
 
-    // percorre os valores, e para cada valor armazena no field
+    // percorre os valores, e para cada valor armazena no field    
     for(let field in values) {
       if (field === 'files') { // verifica se é o array de imagens
         values.files.forEach(file => {
           formData.append('files', file) // insere mais um item
         })
       } else {
-        // percorre os campos (titulo, serviço, nome, phone) e insere em formData
-        formData.append(field, values[field]) //ex. values.title => field
+        // percorre os campos (titulo, serviço, nome, phone) e insere em formData        
+        formData.append(field, values[field])
       }
-
     }
 
     axios.post('/api/services', formData)
-        .then(handleSuccess)
-        .catch(handleError)
-
-    axios.post('', values) 
-
+      .then(handleSuccess)
+      .catch(handleError)
   }
 
   return (
@@ -99,6 +94,7 @@ const Publish = ({ userId, image }) => {
             setFieldValue, //semelhante ao handleChange, porém manual
             isSubmitting,
           }) => {
+
             return (
               <form onSubmit={handleSubmit}>
                 <Input type="hidden" name="userId" value={values.userId} />
@@ -134,11 +130,11 @@ const Publish = ({ userId, image }) => {
 
                     <br /> <br />
 
-                    <FormControl error={errors.service && touched.service} fullWidth>
+                    <FormControl error={errors.category && touched.category} fullWidth>
                       <InputLabel className={classes.inputLabel}>Serviço</InputLabel>
                       <Select
-                        name="service"
-                        value={values.service}
+                        name="category"
+                        value={values.category}
                         fullWidth
                         onChange={handleChange}
                       >
@@ -148,7 +144,7 @@ const Publish = ({ userId, image }) => {
                         <MenuItem value="Encanador">Encanador</MenuItem>
                       </Select>
                       <FormHelperText>
-                        {errors.service && touched.service ? errors.service : null}
+                        {errors.category && touched.category ? errors.category : null}
                       </FormHelperText>
                     </FormControl>
 
@@ -264,7 +260,7 @@ export async function getServerSideProps({ req }) {
   return {
     props: {
       userId: userId || null,
-      image: user.image
+      image: user.image,
     }
   }
 }

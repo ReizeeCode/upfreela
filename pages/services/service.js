@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(3),
         marginBottom: theme.spacing(3),
     },
-    serviceName:{
+    category:{
         margin: '15px 0',
     },
     qntDias:{
@@ -85,7 +85,7 @@ const Service = () => {
                         {/* Criando o segundo BOX */}
                         <Box className={classes.box} textAlign="left">
                             <Typography component="span" variant="caption">Publicado em 20/10/2022</Typography>
-                            <Typography component="h4" variant="h4" className={classes.serviceName}>Pintar quarto 4x4</Typography>
+                            <Typography component="h4" variant="h4" className={classes.category}>Pintar quarto 4x4</Typography>
                             <Typography component="h4" variant="h4" className={classes.qntDias}>5 dias</Typography>
                             <Chip label="Categoria" />
                         </Box>
@@ -115,7 +115,7 @@ const Service = () => {
                         </Card>
 
                         <Box className={classes.box} textAlign="center">
-                            <Typography component="h6" variant="h6">Localiação</Typography>
+                            <Typography component="h6" variant="h6">Localização</Typography>
                         </Box>
                     </Grid>
                 </Grid>
