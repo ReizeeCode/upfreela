@@ -44,7 +44,7 @@ const Publish = ({ userId, image }) => {
       severity: 'success', //deixa o campo verde
     })
 
-    router.push('/user/publish') // envia o anuncio e direciona para a dashboard
+    router.push('/user/dashboard') // envia o anuncio e direciona para a dashboard
   }
 
   const handleError = () => {
@@ -259,7 +259,7 @@ export async function getServerSideProps({ req }) {
 
   return {
     props: {
-      userId: userId || null,
+      userId: userId,
       image: user.image,
     }
   }
