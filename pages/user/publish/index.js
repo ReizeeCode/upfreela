@@ -70,7 +70,7 @@ const Publish = ({ userId, image }) => {
       }
     }
 
-    axios.post('/api/services', formData)
+    axios.post('/api/services/adicionar', formData)
       .then(handleSuccess)
       .catch(handleError)
   }
