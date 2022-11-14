@@ -1,3 +1,6 @@
+import { useState } from 'react'
+import { useRouter } from 'next/router'
+
 import slugify from 'slugify'
 import Link from 'next/link'
 
@@ -36,7 +39,17 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const List = ({ services, q }) => {
+  
+  const router = useRouter()
+  const [search, setSearch] = useState()
+  
   const classes = useStyles()
+
+  const handleSubmitSearch = () => {
+    router.push({
+      pathname: `${search}`,
+    })
+  }  
 
   return (
     <TemplateDefault>
@@ -46,10 +59,11 @@ const List = ({ services, q }) => {
           <Grid item xs={12} sm={12} md={12}>
             <Paper component="form" className={classes.searchBox}>
               <InputBase
+                onChange={(e) => setSearch(e.target.value)}
                 placeholder="Ex.: Preciso de um pintor"
                 fullWidth
               />
-              <IconButton type="submit" aria-label="search">
+              <IconButton onClick={handleSubmitSearch}>
                 <SearchIcon />
               </IconButton>
             </Paper>
