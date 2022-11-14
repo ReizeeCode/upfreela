@@ -1,3 +1,6 @@
+import { useState } from 'react'
+import { useRouter } from 'next/router'
+
 import Link from 'next/link'
 import slugify from 'slugify'
 
@@ -33,7 +36,20 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Home = ({ services }) => {
+
+    
+    const router = useRouter()
+    const [search, setSearch] = useState()
+    
     const classes = useStyles()
+
+    // dar um push na rota pelo caminho que está sendo passado em pathname
+    const handleSubmitSearch = () => {
+        router.push({
+          pathname: `/search/${search}`,
+        })
+    }    
+
     return(
         
         <TemplateDefault>
@@ -43,10 +59,11 @@ const Home = ({ services }) => {
                 </Typography>
                 <Paper className={classes.searchBox}>
                     <InputBase 
-                    placeholder="Ex.: Pintor no bairro de Itaquera"
-                    fullWidth
+                        onChange={(e) => setSearch(e.target.value)}
+                        placeholder="Ex.: Pintor no bairro de Itaquera"
+                        fullWidth
                     />
-                    <IconButton>
+                    <IconButton onClick={handleSubmitSearch}>
                         <SearchIcon/>
                     </IconButton>
                 </Paper>
