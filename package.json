@@ -25,6 +25,7 @@
     "react-dom": "18.2.0",
     "react-dropzone": "^11.3.4",
     "react-material-ui-carousel": "^2.2.7",
+    "slugify": "^1.6.5",
     "yup": "^0.32.11"
   },
   "devDependencies": {

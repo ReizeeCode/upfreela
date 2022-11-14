@@ -1,3 +1,6 @@
+import Link from 'next/link'
+import slugify from 'slugify'
+
 import {      
     Container, 
     Grid, 
@@ -11,8 +14,13 @@ import { makeStyles } from '@material-ui/core/styles'
 import SearchIcon from '@material-ui/icons/search'
 import TemplateDefault from '../src/templates/Default'
 import Card from '../src/components/Card'
+import dbConnect from '../src/utils/dbConnect'
+import ServicesModel from '../src/models/services'
 
 const useStyles = makeStyles((theme) => ({
+    serviceLink:{
+        textDecoration: 'none !important'
+    },
     searchBox:{
         display: 'flex',
         justifyContent: 'center',
@@ -21,10 +29,10 @@ const useStyles = makeStyles((theme) => ({
     },
     cardGrid:{
         marginTop: '25px'
-    }
+    },
 }))
 
-const Home = () => {
+const Home = ({ services }) => {
     const classes = useStyles()
     return(
         
@@ -50,31 +58,49 @@ const Home = () => {
                 </Typography>  
                 <br />
                 <Grid container spacing={4}> {/* espaçamento entre os containers */}
-                    <Grid item xs={12} sm={6} md={4}> {/* responsividade entre telas */}
-                    <Card 
-                        image={'https://source.unsplash.com/random'}
-                        title="Serviço X"
-                        subtitle="5 dias"
-                    />
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4}>
-                        <Card 
-                            image={'https://source.unsplash.com/random'}
-                            title="Serviço X"
-                            subtitle="5 dias"
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4}>
-                        <Card 
-                            image={'https://source.unsplash.com/random'}
-                            title="Serviço X"
-                            subtitle="5 dias"
-                        />
-                    </Grid>
+                    {
+                        services.map(service =>{
+                            const category = slugify(service.category).toLocaleLowerCase()
+                            const title = slugify(service.title).toLocaleLowerCase()
+
+                            return (
+                                <Grid key={service._id} item xs={12} sm={6} md={4}> {/* responsividade entre telas */}
+                                    <Link href={`/${category}/${title}/${service._id}`}>
+                                        <a className={classes.serviceLink}>
+                                        <Card 
+                                            image={`/uploads/${service.files[0].name}`}
+                                            title={service.title}
+                                            subtitle={service.qntDias}
+                                        />
+                                        </a>
+                                    </Link> 
+                                </Grid>
+                            )
+                        })
+                    }
+
                 </Grid>
             </Container>
         </TemplateDefault>
     )
+}
+
+// Nessa função não depende de que nenhuma informação, sendo necessário a conexão com o banco e o model.
+// No método aggregate é passado o um array e um objeto (é um array de objetos) e usar a regra do próprio mongoose ($sample: { size: 6 }) que informa a quantidade de registro que desejamos trazer 
+
+
+export async function getServerSideProps() {
+    await dbConnect()
+  
+    const services = await ServicesModel.aggregate([{
+      $sample: { size: 6 }
+    }])
+  
+    return {
+      props: {
+        services: JSON.parse(JSON.stringify(services))
+      }
+    }
 }
 
 export default Home
