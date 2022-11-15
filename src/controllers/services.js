@@ -58,10 +58,14 @@ const post = async (req, res) => {
         const {
             title,
             category,
+            qntDias,
             description,
             name,
             email,
             phone,
+            logradouro,
+            cep,
+            regiao,
             userId,
             image,
         } = fields
@@ -69,7 +73,11 @@ const post = async (req, res) => {
         const service = new ServicesModel({
             title,
             category,
+            qntDias,
             description,
+            logradouro,
+            cep,
+            regiao,
             user: {
                 id: userId,
                 name,

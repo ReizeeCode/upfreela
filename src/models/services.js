@@ -9,15 +9,31 @@ const filesSchema = new mongoose.Schema({
 const schema = new mongoose.Schema({
   title: {
     type: String,
-    required: [true, 'O campo "título do anúncio" é obrigatório.'],
+    required: [true, 'O campo "Título do anúncio" é obrigatório.'],
   },
   category: {
     type: String,
-    required: [true, 'O campo "categoria" é obrigatório.'],
+    required: [true, 'O campo "Categoria" é obrigatório.'],
+  },
+  qntDias: {
+    type: String,
+    required: [true, 'O campo "Quantidade de dias" é obrigatório.'],
   },
   description: {
     type: String,
-    required: [true, 'O campo "descrição" é obrigatório.'],
+    required: [true, 'O campo "Descrição" é obrigatório.'],
+  },
+  logradouro: {
+    type: String,
+    required: [true, 'O campo "Logradouro" é obrigatório.'],
+  },
+  cep: {
+    type: String,
+    required: [true, 'O campo "CEP" é obrigatório.'],
+  },
+  regiao: {
+    type: String,
+    required: [true, 'O campo "Região" é obrigatório.'],
   },
   user: {
     id: String,

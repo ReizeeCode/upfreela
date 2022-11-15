@@ -43,7 +43,6 @@ const Publish = ({ userId, image }) => {
       text: 'Anúncio cadastrado com sucesso',
       severity: 'success', //deixa o campo verde
     })
-
     router.push('/user/dashboard') // envia o anuncio e direciona para a dashboard
   }
 
@@ -148,6 +147,22 @@ const Publish = ({ userId, image }) => {
                       </FormHelperText>
                     </FormControl>
 
+                    <br /> <br />
+
+                    <FormControl error={errors.qntDias && touched.qntDias} fullWidth>
+                      <InputLabel className={classes.inputLabel}>Quantidade de dias ?</InputLabel>
+                      <Input
+                        name="qntDias"
+                        value={values.qntDias}
+                        onChange={handleChange}
+                      />
+                      <FormHelperText>
+                        {errors.qntDias && touched.qntDias ? errors.qntDias : null}
+                      </FormHelperText>
+                    </FormControl>
+
+                    <br /> <br />
+
                   </Box>
                 </Container>
 
@@ -226,6 +241,74 @@ const Publish = ({ userId, image }) => {
                       />
                       <FormHelperText>
                         {errors.email && touched.email ? errors.email : null}
+                      </FormHelperText>
+                    </FormControl>
+
+                  </Box>
+                </Container>
+
+                {/* Container do endereço */}
+                <Container maxWidth="md" className={classes.boxContainer}>
+                  <Box className={classes.box}>
+                    <Typography component="h6" variant="h6" color="textPrimary" gutterBottom>
+                      Dados do endereço
+                    </Typography>
+                    <FormControl error={errors.logradouro && touched.logradouro} fullWidth>
+                      <InputLabel className={classes.inputLabel}>Endereço</InputLabel>
+                      <Input
+                        name="logradouro"
+                        value={values.logradouro}
+                        onChange={handleChange}
+                      />
+                      <FormHelperText>
+                        {errors.logradouro && touched.logradouro ? errors.logradouro : null}
+                      </FormHelperText>
+                    </FormControl>
+
+                    <br /> <br />
+
+                    <FormControl error={errors.cep && touched.cep} fullWidth>
+                      <InputLabel className={classes.inputLabel}>CEP</InputLabel>
+                      <Input
+                        name="cep"
+                        value={values.cep}
+                        onChange={handleChange}
+                      />
+                      <FormHelperText>
+                        {errors.cep && touched.cep ? errors.cep : null}
+                      </FormHelperText>
+                    </FormControl>
+
+                    <br /> <br />
+
+                    <FormControl error={errors.regiao && touched.regiao} fullWidth>
+                      <InputLabel className={classes.inputLabel}>Região</InputLabel>
+                      <Select
+                        name="regiao"
+                        value={values.regiao}
+                        fullWidth
+                        onChange={handleChange}
+                      >
+
+                        <MenuItem value="Araraquara">Araraquara</MenuItem>
+                        <MenuItem value="Araçatuba">Araçatuba</MenuItem>
+                        <MenuItem value="Assis">Assis</MenuItem>
+                        <MenuItem value="Bauru">Bauru</MenuItem>
+                        <MenuItem value="Campinas">Campinas</MenuItem>
+                        <MenuItem value="Itapetininga">Itapetininga</MenuItem>
+                        <MenuItem value="Litoral Sul Paulista">Litoral Sul Paulista</MenuItem>
+                        <MenuItem value="Macro Metropolitana Paulista">Macro Metropolitana Paulista</MenuItem>
+                        <MenuItem value="Marília">Marília</MenuItem>
+                        <MenuItem value="Metropolitana de São Paulo">Metropolitana de São Paulo</MenuItem> 
+                        <MenuItem value="Piracicaba">Piracicaba</MenuItem>
+                        <MenuItem value="Presidente Prudente">Presidente Prudente</MenuItem>
+                        <MenuItem value="Ribeirão Preto">Ribeirão Preto</MenuItem>
+                        <MenuItem value="São José do Rio Preto">São José do Rio Preto</MenuItem>
+                        <MenuItem value="Vale do Paraíba Paulista">Vale do Paraíba Paulista</MenuItem>
+
+                      </Select>
+                      <FormHelperText>
+                        {errors.regiao && touched.regiao ? errors.regiao : null}
                       </FormHelperText>
                     </FormControl>
 
