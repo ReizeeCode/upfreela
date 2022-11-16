@@ -84,8 +84,8 @@ const Service = ({ service }) => {
                     {/* Criando o segundo BOX */}
                     <Box className={classes.box} textAlign="left">
                         <Typography component="span" variant="caption">Publicado em 20/10/2022</Typography>
-                        <Typography component="h4" variant="h4" className={classes.category}>{service.title}</Typography>
-                        <Typography component="h4" variant="h4" className={classes.qntDias}>5 dias</Typography>
+                        <Typography component="h4" variant="h4" className={classes.title}>{service.title}</Typography>
+                        <Typography component="h5" variant="h5" className={classes.qntDias}>Entregar em {service.qntDias} dias</Typography>
                         <Chip label={service.category} />
                     </Box>
 
@@ -104,9 +104,9 @@ const Service = ({ service }) => {
                     <Card elevation={0} className={classes.box}>
                         <CardHeader
                             avatar={
-                                <Avatar src={service.user.image}>
-                                    
-                                    {service.user.image || service.user.name[0] }
+                                // <Avatar src={service.user.image}>
+                                <Avatar> 
+                                    {/* {service.user.image || service.user.name[0] } */}
 
                                 </Avatar>
                             }

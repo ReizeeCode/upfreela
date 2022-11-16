@@ -129,7 +129,8 @@ const Home = ( { services } ) => {
                               <Card
                                 image={`/uploads/${service.files[0].name}`}
                                 title={service.title}
-                                subtitle="5 dias"
+                                subtitle={service.qntDias}
+                                category={service.category}
                                 actions={
                                   <>
                                     <Button size="small" color="primary">
@@ -140,7 +141,7 @@ const Home = ( { services } ) => {
                                     </Button>
                                   </>
                                 }
-                              />              
+                              />    
                             </Grid> 
                           )
                         })

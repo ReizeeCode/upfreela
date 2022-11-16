@@ -2,6 +2,7 @@ import {
     Card as CardMUI, // para nao dar conflito com a declaração do componente
     CardMedia,
     CardContent,
+    Chip,
     Typography,
     CardActions
 } from '@material-ui/core'
@@ -15,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   }))
 
 {/* adicionando props */}
-const Card = ({ image, title, subtitle, actions }) => {
+const Card = ({ image, title, subtitle, category, actions }) => {
 
     const classes = useStyles()
 
@@ -32,8 +33,10 @@ const Card = ({ image, title, subtitle, actions }) => {
                     {title}
                 </Typography>
                 <Typography>
-                    {subtitle}
-                </Typography>
+                    Entregar em {subtitle} dias
+                </Typography> 
+                <br></br>   
+                <Chip label={category} />  
             </CardContent>
 
             {/* Validação realizada para inserirmos o botão na página (Confere se a variável actions existe, se não exitir da null) */}

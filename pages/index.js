@@ -88,6 +88,7 @@ const Home = ({ services }) => {
                                             image={`/uploads/${service.files[0].name}`}
                                             title={service.title}
                                             subtitle={service.qntDias}
+                                            category={service.category}
                                         />
                                         </a>
                                     </Link> 
