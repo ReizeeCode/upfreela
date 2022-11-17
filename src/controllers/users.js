@@ -12,8 +12,10 @@ const post = async (req, res) => {
     //Passos: pegar os dados que vem no req, conectar no banco, criptografar a senha, salvar os dados e responder 'sucesso'
     const{
         name,
+        cpf,
         email,
         password,
+        // typeUser,
     } = req.body
 
     await dbConnect()
@@ -22,8 +24,10 @@ const post = async (req, res) => {
 
     const user = new UsersModel({
         name,
+        cpf,
         email,
         password: passwordCrypto,
+        // typeUser,
     })
 
     user.save()

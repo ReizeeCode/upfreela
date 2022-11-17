@@ -10,6 +10,8 @@ import {
     FormControl,
     FormHelperText,
     InputLabel,
+    Select,
+    MenuItem,
     Button,
     CircularProgress,
 } from '@material-ui/core'
@@ -80,6 +82,18 @@ const Signup = () => {
                                             </FormHelperText>
                                         </FormControl>
 
+                                        <FormControl fullWidth error={errors.cpf && touched.cpf} className={classes.formControl}>
+                                            <InputLabel>CPF</InputLabel>
+                                            <Input
+                                                name="cpf"
+                                                value={values.cpf}
+                                                onChange={handleChange}
+                                            />
+                                            <FormHelperText>
+                                                {errors.cpf && touched.cpf ? errors.cpf : null}
+                                            </FormHelperText>
+                                        </FormControl>
+
                                         <FormControl fullWidth error={errors.email && touched.email} className={classes.formControl}>
                                             <InputLabel>E-mail</InputLabel>
                                             <Input
@@ -118,6 +132,22 @@ const Signup = () => {
                                                 {errors.passwordConf && touched.passwordConf ? errors.passwordConf : null}
                                             </FormHelperText>
                                         </FormControl>
+
+                                        {/* <FormControl error={errors.typeUser && touched.typeUser} fullWidth>
+                                            <InputLabel className={classes.inputLabel}>Serviço</InputLabel>
+                                            <Select
+                                                name="typeUser"
+                                                value={values.typeUser}
+                                                fullWidth
+                                                onChange={handleChange}
+                                            >
+                                                <MenuItem value="Cliente">Cliente</MenuItem>
+                                                <MenuItem value="Prestador">Prestador</MenuItem>
+                                            </Select>
+                                            <FormHelperText>
+                                                {errors.typeUser && touched.typeUser ? errors.typeUser : null}
+                                            </FormHelperText>
+                                        </FormControl> */}
 
                                         {
                                             isSubmitting

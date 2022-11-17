@@ -55,12 +55,20 @@ export default function ButtonAppBar() {
             <Typography variant="h6" className={classes.title}>
               UpFreela
             </Typography>
+            
             {/* se tiver session vai para a pagina de publish, se nao leva para signin */}
             <Link href={session ? '/user/publish' : '/auth/signin'} passHref> 
               <Button color="inherit" variant="outlined" className={classes.headButton}>
                 Anunciar
               </Button>
             </Link>
+
+            {/* <Link href={'/frellancer/'} passHref> 
+              <Button color="inherit" variant="outlined" className={classes.headButton}>
+                Receber Ofertas
+              </Button>
+            </Link> */}
+
             {
               session
                 ? (
