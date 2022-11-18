@@ -63,6 +63,15 @@ export default function ButtonAppBar() {
               </Button>
             </Link>
 
+            {
+              session == null && 
+              <Link href={'/freelancer'} passHref> 
+                <Button color="inherit" variant="outlined" className={classes.headButton}>
+                  Receber anúncios
+                </Button>
+              </Link>
+            }
+
             {/* <Link href={'/frellancer/'} passHref> 
               <Button color="inherit" variant="outlined" className={classes.headButton}>
                 Receber Ofertas
