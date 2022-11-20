@@ -183,7 +183,7 @@ const Publish = ({ userId, image }) => {
                 <Container maxWidth="md" className={classes.boxContainer}>
                   <Box className={classes.box}>
                     <FormControl error={errors.description && touched.description} fullWidth>
-                      <InputLabel className={classes.inputLabel}>Escreva os detalhes do que está vendendo</InputLabel>
+                      <InputLabel className={classes.inputLabel}>Escreva os detalhes do serviço que precisa</InputLabel>
                       <Input
                         name="description"
                         multiline

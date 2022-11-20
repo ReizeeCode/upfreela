@@ -2,6 +2,8 @@ import fs from 'fs'
 import path from 'path'
 import formidable from 'formidable-serverless'
 import ServicesModel from '../models/services'
+import FrelancersModel from '../models/freelancer'
+import nodeMailer from "nodemailer";
 import dbConnect from '../utils/dbConnect'
 
 const post = async (req, res) => {
@@ -12,6 +14,15 @@ const post = async (req, res) => {
         uploadDir: 'public/uploads',
         keepExtensions: true,
     })
+
+    const transporter = nodeMailer.createTransport({
+        host: "smtp.mailtrap.io",
+        port: 2525,
+        auth: {
+          user: "ce26ba1a1ac918",
+          pass: "1c22ae4c0ad24a",
+        },
+      });
 
     form.parse(req, async (error, fields, data) => {
         if (error) {
@@ -89,6 +100,25 @@ const post = async (req, res) => {
         })
 
         const register = await service.save()
+
+        //Procura todos os freelancer que estão na região do serviço que acabou de ser registrado
+        const freelancers = await FrelancersModel.find({
+            categoryFreelancer: category,
+            regiaoFreelancer: regiao,
+          });
+      
+        //Enviando email para todos os freelancers encontrados na query acima
+          freelancers.forEach(async (freelancer) => {
+            const info = await transporter.sendMail({
+              from: email,
+              to: freelancer.emailFreelancer,
+              subject: service.title,
+              text: "Novo Serviço Solicitado",
+              html: `<b>Descrição: ${service.description}</b>`,
+            });
+      
+            console.log(`Mensagem Enviada: ${info.messageId}`);
+          });
 
         if (register) {
             res.status(201).json({ success: true })
