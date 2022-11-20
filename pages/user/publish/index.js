@@ -150,7 +150,7 @@ const Publish = ({ userId, image }) => {
                     <br /> <br />
 
                     <FormControl error={errors.qntDias && touched.qntDias} fullWidth>
-                      <InputLabel className={classes.inputLabel}>Quantidade de dias ?</InputLabel>
+                      <InputLabel className={classes.inputLabel}>Quantidade de dias</InputLabel>
                       <Input
                         name="qntDias"
                         value={values.qntDias}

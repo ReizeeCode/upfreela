@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import axios from 'axios'
+import slugify from 'slugify'
 
 import {
   Button,
@@ -29,7 +30,10 @@ const useStyles = makeStyles((theme) => ({
   ButtonAdd: {
     margin: '30px auto 50px auto',
     display: 'incline-block',
-  }
+  },
+  serviceLink:{
+    textDecoration: 'none !important'
+  },
 }))
 
 const Home = ( { services } ) => {
@@ -123,6 +127,9 @@ const Home = ( { services } ) => {
           {
                         services.map(service => { 
                           if (removedServices.includes(service._id)) return null
+
+                          const category = slugify(service.category).toLocaleLowerCase()
+                          const title = slugify(service.title).toLocaleLowerCase()
             
                           return (
                             <Grid key={service._id} item xs={12} sm={6} md={4}>
@@ -136,6 +143,15 @@ const Home = ( { services } ) => {
                                     <Button size="small" color="primary">
                                       Editar
                                     </Button>
+
+                                    <Link href={`/${category}/${title}/${service._id}`}>
+                                      <a className={classes.serviceLink}>
+                                        <Button size="small" color="primary">
+                                          Visualizar
+                                        </Button>
+                                      </a>
+                                    </Link>
+
                                     <Button size="small" color="primary" onClick={() => handleClickRemove(service._id)}>
                                       Remover
                                     </Button>
