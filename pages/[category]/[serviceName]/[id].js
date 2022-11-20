@@ -1,3 +1,4 @@
+const { DateTime } = require("luxon")
 import { makeStyles } from '@material-ui/core/styles'
 
 import {
@@ -44,6 +45,9 @@ const Service = ({ service }) => {
 
     const classes = useStyles()
 
+    const data = service.datePublish
+    const dateFormated = DateTime.fromISO(data).setLocale('pt').toLocaleString(DateTime.DATETIME_MED)
+
     return (
         <TemplateDefault>
             <Container maxWidth="lg">
@@ -83,7 +87,7 @@ const Service = ({ service }) => {
 
                     {/* Criando o segundo BOX */}
                     <Box className={classes.box} textAlign="left">
-                        <Typography component="span" variant="caption">Publicado em 20/10/2022</Typography>
+                        <Typography component="span" variant="caption">Publicado em {dateFormated}</Typography>
                         <Typography component="h4" variant="h4" className={classes.title}>{service.title}</Typography>
                         <Typography component="h5" variant="h5" className={classes.qntDias}>Entregar em {service.qntDias} dias</Typography>
                         <Chip label={service.category} />

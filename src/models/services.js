@@ -45,6 +45,11 @@ const schema = new mongoose.Schema({
   files: {
     type: [filesSchema],
     default: undefined, //obrigatório pelo mongoose
+  },
+
+  datePublish: { 
+    type: Date,
+    required: true,
   }
 
 })

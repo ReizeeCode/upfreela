@@ -79,6 +79,7 @@ const post = async (req, res) => {
             regiao,
             userId,
             image,
+            datePublish,
         } = fields
 
         const service = new ServicesModel({
@@ -97,6 +98,7 @@ const post = async (req, res) => {
                 image,
             },
             files: filesToSave,
+            datePublish,
         })
 
         const register = await service.save()

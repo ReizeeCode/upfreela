@@ -12,6 +12,7 @@ const initialValues = {
     cep: '',
     regiao: '',
     files: [], // isso é um array de imagens
+    datePublish: new Date(),
 }
 
 const validationSchema = yup.object().shape({
@@ -57,6 +58,8 @@ const validationSchema = yup.object().shape({
     files: yup.array()
       .min(1, 'Envie pelo menos uma foto')
       .required('Campo obrigatório'),
+      
+    datePublish: yup.date(),
 })
 
 //Exportando um objeto
