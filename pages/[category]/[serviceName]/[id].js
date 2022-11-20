@@ -125,6 +125,10 @@ const Service = ({ service }) => {
 
                     <Box className={classes.box} textAlign="center">
                         <Typography component="h6" variant="h6">Localização</Typography>
+                        <br></br>
+                        <Typography fontSize="600">
+                            {service.regiao}
+                        </Typography>
                     </Box>
                 </Grid>
             </Grid>
