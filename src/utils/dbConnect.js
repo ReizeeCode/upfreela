@@ -32,9 +32,9 @@ async function dbConnect() {
     cached.promise = mongoose
       .connect(MONGODB_URI, {
         bufferCommands: false,
-        authSource: "admin",
-        user: "admin",
-        pass: "senha",
+        // authSource: "admin",
+        // user: "admin",
+        // pass: "senha",
       })
       .then((mongoose) => {
         console.log("Connected to database!");

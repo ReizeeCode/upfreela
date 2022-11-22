@@ -68,11 +68,14 @@ const Signin = () => {
             }) => {
               return (
                 <form onSubmit={handleSubmit}>
-                  {router.query.i === "1" ? (
+
+                  {
+                  router.path === "error" ? (
                     <Alert severity='error' className={classes.errorMessage}>
                       Usuário ou senha inválidos
                     </Alert>
-                  ) : null}
+                  ) 
+                  : null}
 
                   <FormControl
                     fullWidth

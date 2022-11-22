@@ -33,7 +33,7 @@ export default NextAuth({
   },
 
   jwt: {
-    secret: process.env.JWT_TOKEN, // (JWT_TOKEN) - conjunto de caracteres
+    secret: process.env.JWT_SIGNING_PRIVATE_KEY, // (JWT_TOKEN) - conjunto de caracteres
   },
 
   callbacks: {

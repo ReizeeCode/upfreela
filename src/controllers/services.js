@@ -134,13 +134,22 @@ const post = async (req, res) => {
   });
 };
 
-const update = async () => {
-  await dbConnect();
+const update = async (req, res) => {
+  await dbConnect()
+
+  const valoresAtualizados = req.body
 
   const { id } = req.params;
 
-  console.log(id);
-};
+  const updated = await ServicesModel.findOneAndUpdate({ _id: id }, valoresAtualizados)
+
+  if (updated) {
+    return res.status(200).json({ success: true })
+  } else {
+    return res.status(500).json({ success: false })
+  }
+
+}
 
 const remove = async (req, res) => {
   await dbConnect();
