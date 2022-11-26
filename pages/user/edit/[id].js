@@ -1,4 +1,5 @@
 import { Formik } from "formik";
+import axios from "axios";
 
 import {
   Container,
@@ -14,16 +15,17 @@ import {
   CircularProgress,
 } from "@material-ui/core";
 
+import { makeStyles } from "@material-ui/core/styles";
+
 import FileUpload from "../../../src/components/FileUpload";
 import TemplateDefault from "../../../src/templates/Default";
 
 import { validationSchema } from "../publish/formValues";
 
-import { makeStyles } from "@material-ui/core/styles";
+import useToasty from "../../../src/contexts/Toasty";
 
 import services from "../../../src/models/services";
 import dbConnect from "../../../src/utils/dbConnect";
-import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   ButtonAdd: {
@@ -37,13 +39,52 @@ const useStyles = makeStyles((theme) => ({
 
 const Edit = ({ service }) => {
   const classes = useStyles();
+  const { setToasty } = useToasty();
 
-  async function handleSubmit(values) {
-    const formData = new FormData(values);
+  const handleSuccess = () => {
+    setToasty({
+      open: true,
+      text: "Anúncio Atualizado com sucesso com sucesso",
+      severity: "success",
+    });
+    router.push("/user/dashboard");
+  };
+
+  const handleError = () => {
+    setToasty({
+      open: true,
+      text: "Ops, ocorreu um erro, tente novamente.",
+      severity: "error",
+    });
+  };
+
+  function handleSubmit(values) {
+    const formData = new FormData();
+
+    // DataTransfers é usado para guardar os dados que estão sendo arrastados durante uma operação de Drag e Drop, podendo guardar um ou mais tipos de dados.
+    var dataTransfer = new DataTransfer();
+
+    // Percorrendo a lista de files e transformando eles nos tipos a serem adicionados no formData
+    values.files.forEach((file) => {
+      const fileCreated = new File([file], file.name, {
+        type: "image/png",
+      });
+
+      Object.defineProperty(fileCreated, "size", {
+        value: file.size,
+      });
+
+      dataTransfer.items.add(fileCreated);
+    });
+
+    // Pegando o file_list do dataTransfers que foram criados anteriormente, para assim ser usado na criação do formData
+    const file_list = dataTransfer.files;
+
+    console.log(file_list);
 
     for (let field in values) {
       if (field === "files") {
-        values.files.forEach((file) => {
+        Array.from(file_list).forEach((file) => {
           formData.append("files", file);
         });
       } else {
@@ -51,8 +92,18 @@ const Edit = ({ service }) => {
       }
     }
 
-    console.log("Chamada da api com o put(Editar)");
-    // await axios.put(`/auth/services/editar/${service._id}`, formData);
+    // console.log("Chamada da api com o put(Editar)");
+
+    axios
+      .put(`/api/services/editar/${service._id}`, formData)
+      .then(({ data }) => {
+        handleSuccess();
+      })
+      .catch((error) => {
+        console.log("Ocorreu um ERRO!");
+        console.log(error);
+        handleError();
+      });
   }
 
   return (
@@ -102,6 +153,7 @@ const Edit = ({ service }) => {
                       name='title'
                       value={values?.title}
                       label='ex.: Preciso de um Pintor para uma parede 4X4'
+                      onChange={handleChange}
                     />
                     <FormHelperText>
                       {errors.title && touched.title ? errors.title : null}
@@ -335,13 +387,16 @@ const Edit = ({ service }) => {
 
               <Container maxWidth='md' className={classes.boxContainer}>
                 <Box textAlign='right'>
-                  {isSubmitting ? (
+                  {/* {isSubmitting ? (
                     <CircularProgress />
                   ) : (
                     <Button type='submit' variant='contained' color='primary'>
-                      Publicar Anúncio
+                      Salvar Alterações
                     </Button>
-                  )}
+                  )} */}
+                  <Button type='submit' variant='contained' color='primary'>
+                    Salvar Alterações
+                  </Button>
                 </Box>
               </Container>
             </form>
@@ -372,7 +427,7 @@ export async function getServerSideProps({ query, service }) {
 
   delete serviceFormatted.user;
 
-  console.log(serviceFormatted);
+  // console.log(serviceFormatted);
 
   return {
     props: {

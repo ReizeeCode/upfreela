@@ -8,6 +8,8 @@ import useStyles from "./styles";
 const FileUpload = ({ files, errors, touched, setFieldValue }) => {
   const classes = useStyles();
 
+  // console.log(files);
+
   const { getRootProps, getInputProps } = useDropzone({
     accept: "image/*",
     onDrop: (acceptedFile) => {
@@ -35,9 +37,19 @@ const FileUpload = ({ files, errors, touched, setFieldValue }) => {
   });
 
   //função para remover imagem
-  const handleRemoveFile = (filePath) => {
-    const newFileState = files.filter((file) => file.path !== filePath);
-    setFieldValue("files", newFileState);
+  const handleRemoveFile = (name) => {
+    /* const newFileState = files.filter((file) => file.path !== filePath);
+    console.log("filePath: ", filePath);
+    console.log("newFileState: ", newFileState);
+    setFieldValue("files", newFileState); */
+
+    const fileIndex = files.findIndex((file) => file.name === name);
+
+    if (fileIndex > -1) {
+      files.splice(fileIndex, 1);
+
+      setFieldValue("files", files);
+    }
   };
 
   return (
@@ -78,7 +90,11 @@ const FileUpload = ({ files, errors, touched, setFieldValue }) => {
           <Box
             key={file.name}
             className={classes.thumb}
-            style={{ backgroundImage: `url(${file.preview})` }}
+            style={{
+              backgroundImage: `url(${
+                file.preview ? file.preview : `/uploads/${file.name}`
+              })`,
+            }}
           >
             {index === 0 ? (
               <Box className={classes.mainImage}>
