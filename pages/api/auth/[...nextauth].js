@@ -53,5 +53,9 @@ export default NextAuth({
     },
   },
 
+  pages:{
+    error: '/auth/signin'
+  },
+
   database: process.env.MONGODB_URI,
 });

@@ -10,6 +10,7 @@ import {
   Input,
   FormControl,
   FormHelperText,
+  Link,
   InputLabel,
   Button,
   CircularProgress,
@@ -27,7 +28,7 @@ const Signin = () => {
   const { setToasty } = useToasty();
   const [session] = useSession();
 
-  console.log(router);
+  // console.log(router)
 
   const handleFormSubmit = async (values) => {
     signIn("credentials", {
@@ -70,12 +71,14 @@ const Signin = () => {
                 <form onSubmit={handleSubmit}>
 
                   {
-                  router.path === "error" ? (
-                    <Alert severity='error' className={classes.errorMessage}>
-                      Usuário ou senha inválidos
-                    </Alert>
-                  ) 
-                  : null}
+                    router.query.error
+                      ? (
+                        <Alert severity="error" className={classes.errorMessage}>
+                          Usuário ou senha inválidos
+                        </Alert>
+                      )
+                      : null
+                  }
 
                   <FormControl
                     fullWidth
@@ -126,6 +129,13 @@ const Signin = () => {
                       Entrar
                     </Button>
                   )}
+
+                  <br></br>
+
+                  <Typography align='center' color='textPrimary'>
+                    Não possui uma conta ? <a href={'/auth/signup'} passHref className={classes.serviceLink}>Cadastre-se</a>
+                  </Typography>
+
                 </form>
               );
             }}
