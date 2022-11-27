@@ -90,7 +90,11 @@ const FileUpload = ({ files, errors, touched, setFieldValue }) => {
           <Box
             key={file.name}
             className={classes.thumb}
-            style={{ backgroundImage: `url(${file.preview})` }}
+            style={{
+              backgroundImage: `url(${
+                file.preview ? file.preview : `/uploads/${file.name}`
+              })`,
+            }}
           >
             {index === 0 ? (
               <Box className={classes.mainImage}>

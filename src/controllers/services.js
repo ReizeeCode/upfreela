@@ -146,7 +146,7 @@ const post = async (req, res) => {
   });
 };
 
-const update = async () => {
+const update = async (req, res) => {
   await dbConnect();
 
   const { id } = req.query;
@@ -205,7 +205,12 @@ const update = async () => {
     try {
       await ServicesModel.updateOne({ _id: id }, serviceUpdated);
 
-  console.log(id);
+      return res.status(201).json({ success: true });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: error.message });
+    }
+  });
 };
 
 const remove = async (req, res) => {
