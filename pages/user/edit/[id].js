@@ -1,4 +1,5 @@
 import { Formik } from "formik";
+import axios from "axios";
 
 import {
   Container,
@@ -14,16 +15,17 @@ import {
   CircularProgress,
 } from "@material-ui/core";
 
+import { makeStyles } from "@material-ui/core/styles";
+
 import FileUpload from "../../../src/components/FileUpload";
 import TemplateDefault from "../../../src/templates/Default";
 
 import { validationSchema } from "../publish/formValues";
 
-import { makeStyles } from "@material-ui/core/styles";
+import useToasty from "../../../src/contexts/Toasty";
 
 import services from "../../../src/models/services";
 import dbConnect from "../../../src/utils/dbConnect";
-import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   ButtonAdd: {
@@ -37,13 +39,52 @@ const useStyles = makeStyles((theme) => ({
 
 const Edit = ({ service }) => {
   const classes = useStyles();
+  const { setToasty } = useToasty();
 
-  async function handleSubmit(values) {
-    const formData = new FormData(values);
+  const handleSuccess = () => {
+    setToasty({
+      open: true,
+      text: "Anúncio Atualizado com sucesso com sucesso",
+      severity: "success",
+    });
+    router.push("/user/dashboard");
+  };
+
+  const handleError = () => {
+    setToasty({
+      open: true,
+      text: "Ops, ocorreu um erro, tente novamente.",
+      severity: "error",
+    });
+  };
+
+  function handleSubmit(values) {
+    const formData = new FormData();
+
+    // DataTransfers é usado para guardar os dados que estão sendo arrastados durante uma operação de Drag e Drop, podendo guardar um ou mais tipos de dados.
+    var dataTransfer = new DataTransfer();
+
+    // Percorrendo a lista de files e transformando eles nos tipos a serem adicionados no formData
+    values.files.forEach((file) => {
+      const fileCreated = new File([file], file.name, {
+        type: "image/png",
+      });
+
+      Object.defineProperty(fileCreated, "size", {
+        value: file.size,
+      });
+
+      dataTransfer.items.add(fileCreated);
+    });
+
+    // Pegando o file_list do dataTransfers que foram criados anteriormente, para assim ser usado na criação do formData
+    const file_list = dataTransfer.files;
+
+    console.log(file_list);
 
     for (let field in values) {
       if (field === "files") {
-        values.files.forEach((file) => {
+        Array.from(file_list).forEach((file) => {
           formData.append("files", file);
         });
       } else {
@@ -52,8 +93,7 @@ const Edit = ({ service }) => {
     }
 
     console.log("Chamada da api com o put(Editar)");
-    await axios.put(`/auth/services/editar/${service._id}`, formData);
-    
+    // await axios.put(`/auth/services/editar/${service._id}`, formData);
   }
 
   return (
@@ -80,72 +120,88 @@ const Edit = ({ service }) => {
                 <Input type="hidden" name="userId" value={values.userId} />
                 <Input type="hidden" name="image" value={values.image} />
 
-                <Container maxWidth="sm">
-                  <Typography component="h1" variant="h2" align="center" color="textPrimary">
-                    Publicar Anúncio
-                  </Typography>
-                  <Typography component="h5" variant="h5" align="center" color="textPrimary">
-                    Quanto mais detalhado, melhor!
-                  </Typography>
-                </Container>
-
-                <br /><br />
-
-                {/* Container do campo Título e Serviço */}
-                <Container maxWidth="md" className={classes.boxContainer}>
-                  <Box className={classes.box}>
-
-                    <FormControl error={errors.title && touched.title} fullWidth>
-                      <InputLabel className={classes.inputLabel}>Título do Anúncio</InputLabel>
-                      <Input
-                        name="title"
-                        value={values.title}
-                        onChange={handleChange}
-                        label="ex.: Preciso de um Pintor para uma parede 4X4"
-                      />
-                      <FormHelperText>
-                        {errors.title && touched.title ? errors.title : null}
-                      </FormHelperText>
-                    </FormControl>
-
-                    <br /> <br />
-
-                    <FormControl error={errors.category && touched.category} fullWidth>
-                      <InputLabel className={classes.inputLabel}>Serviço</InputLabel>
-                      <Select
-                        name="category"
-                        value={values.category}
-                        fullWidth
-                        onChange={handleChange}
-                      >
-                        <MenuItem value="Pintura">Pintura</MenuItem>
-                        <MenuItem value="Eletricista">Eletricista</MenuItem>
-                        <MenuItem value="Pedreiro">Pedreiro</MenuItem>
-                        <MenuItem value="Encanador">Encanador</MenuItem>
-                      </Select>
-                      <FormHelperText>
-                        {errors.category && touched.category ? errors.category : null}
-                      </FormHelperText>
-                    </FormControl>
-
-                    <br /> <br />
-
-                    <FormControl error={errors.qntDias && touched.qntDias} fullWidth>
-                      <InputLabel className={classes.inputLabel}>Quantidade de dias</InputLabel>
-                      <Input
-                        name="qntDias"
-                        value={values.qntDias}
-                        onChange={handleChange}
-                      />
-                      <FormHelperText>
-                        {errors.qntDias && touched.qntDias ? errors.qntDias : null}
-                      </FormHelperText>
-                    </FormControl>
-
-                    <br /> <br />
-
-                  </Box>
-                </Container>
+              <Container maxWidth='sm'>
+                <Typography
+                  component='h1'
+                  variant='h2'
+                  align='center'
+                  color='textPrimary'
+                >
+                  Publicar Anúncio
+                </Typography>
+                <Typography
+                  component='h5'
+                  variant='h5'
+                  align='center'
+                  color='textPrimary'
+                >
+                  Quanto mais detalhado, melhor!
+                </Typography>
+              </Container>
+              <br />
+              <br />
+              <Container maxWidth='md' className={classes.boxContainer}>
+                <Box className={classes.box}>
+                  <FormControl error={errors.title && touched.title} fullWidth>
+                    <InputLabel className={classes.inputLabel}>
+                      Título do Anúncio
+                    </InputLabel>
+                    <Input
+                      name='title'
+                      value={values?.title}
+                      label='ex.: Preciso de um Pintor para uma parede 4X4'
+                    />
+                    <FormHelperText>
+                      {errors.title && touched.title ? errors.title : null}
+                    </FormHelperText>
+                  </FormControl>
+                  <br /> <br />
+                  <FormControl
+                    error={errors.category && touched.category}
+                    fullWidth
+                  >
+                    <InputLabel className={classes.inputLabel}>
+                      Serviço
+                    </InputLabel>
+                    <Select
+                      name='category'
+                      value={values?.category}
+                      fullWidth
+                      onChange={handleChange}
+                    >
+                      <MenuItem value='Pintura'>Pintura</MenuItem>
+                      <MenuItem value='Eletricista'>Eletricista</MenuItem>
+                      <MenuItem value='Pedreiro'>Pedreiro</MenuItem>
+                      <MenuItem value='Encanador'>Encanador</MenuItem>
+                    </Select>
+                    <FormHelperText>
+                      {errors.category && touched.category
+                        ? errors.category
+                        : null}
+                    </FormHelperText>
+                  </FormControl>
+                  <br /> <br />
+                  <FormControl
+                    error={errors.qntDias && touched.qntDias}
+                    fullWidth
+                  >
+                    <InputLabel className={classes.inputLabel}>
+                      Quantidade de dias
+                    </InputLabel>
+                    <Input
+                      name='qntDias'
+                      value={values?.qntDias}
+                      onChange={handleChange}
+                    />
+                    <FormHelperText>
+                      {errors.qntDias && touched.qntDias
+                        ? errors.qntDias
+                        : null}
+                    </FormHelperText>
+                  </FormControl>
+                  <br /> <br />
+                </Box>
+              </Container>
 
                 {/* Container de Imagens */}
                 {/* A lógica de upload de imagenm, os componentes visuais e seus estilos estão sendo importados, onde são enviados da pasta src/components/FileUpload/ */}
@@ -296,19 +352,20 @@ const Edit = ({ service }) => {
                   </Box>
                 </Container>
 
-                <Container maxWidth="md" className={classes.boxContainer}>
-                  <Box textAlign="right">
-                    {
-                      isSubmitting
-                        ? <CircularProgress/>
-                        : <Button type="submit" variant="contained" color="primary">Salvar alterações</Button>
-                    }
-                  </Box>
-                </Container>
-              </form>
-            )
-          }
-        }
+              <Container maxWidth='md' className={classes.boxContainer}>
+                <Box textAlign='right'>
+                  {isSubmitting ? (
+                    <CircularProgress />
+                  ) : (
+                    <Button type='submit' variant='contained' color='primary'>
+                      Publicar Anúncio
+                    </Button>
+                  )}
+                </Box>
+              </Container>
+            </form>
+          </>
+        )}
       </Formik>
 
     </TemplateDefault >
@@ -336,7 +393,7 @@ export async function getServerSideProps({ query, service }) {
 
   delete serviceFormatted.user;
 
-  console.log(serviceFormatted);
+  // console.log(serviceFormatted);
 
   return {
     props: {

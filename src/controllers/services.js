@@ -59,6 +59,7 @@ const post = async (req, res) => {
       filesToSave.push({
         name: filename,
         path: newpath,
+        size: file.size,
       });
 
       // renomeia o arquivo e muda o local
@@ -145,22 +146,67 @@ const post = async (req, res) => {
   });
 };
 
-const update = async (req, res) => {
-  await dbConnect()
+const update = async () => {
+  await dbConnect();
 
-  const valoresAtualizados = req.body
+  const { id } = req.query;
 
-  const { id } = req.params;
+  const form = new formidable.IncomingForm({
+    multiples: true,
+    uploadDir: "public/uploads",
+    keepExtensions: true,
+  });
 
-  const updated = await ServicesModel.findOneAndUpdate({ _id: id }, valoresAtualizados)
+  form.parse(req, async (error, fields, data) => {
+    if (error) {
+      return res.status(500).json({ success: false });
+    }
 
-  if (updated) {
-    return res.status(200).json({ success: true })
-  } else {
-    return res.status(500).json({ success: false })
-  }
+    const { files } = data;
 
-}
+    const filesToSave = files instanceof Array ? files : [files];
+
+    const {
+      title,
+      category,
+      qntDias,
+      description,
+      name,
+      email,
+      phone,
+      logradouro,
+      cep,
+      regiao,
+      userId,
+      image,
+      datePublish,
+    } = fields;
+
+    // Criando o objeto com os campos atualizados
+    const serviceUpdated = {
+      title,
+      category,
+      qntDias,
+      description,
+      logradouro,
+      cep,
+      regiao,
+      user: {
+        id: userId,
+        name,
+        email,
+        phone,
+        image,
+      },
+      files: filesToSave,
+      datePublish,
+    };
+
+    try {
+      await ServicesModel.updateOne({ _id: id }, serviceUpdated);
+
+  console.log(id);
+};
 
 const remove = async (req, res) => {
   await dbConnect();

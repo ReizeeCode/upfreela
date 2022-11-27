@@ -1,10 +1,11 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
 // está separado pois é um array
 const filesSchema = new mongoose.Schema({
   name: String,
   path: String,
-})
+  size: Number,
+});
 
 const schema = new mongoose.Schema({
   title: {
@@ -47,11 +48,10 @@ const schema = new mongoose.Schema({
     default: undefined, //obrigatório pelo mongoose
   },
 
-  datePublish: { 
+  datePublish: {
     type: Date,
     required: true,
-  }
+  },
+});
 
-})
-
-export default mongoose.models.services || mongoose.model('services', schema)
+export default mongoose.models.services || mongoose.model("services", schema);
