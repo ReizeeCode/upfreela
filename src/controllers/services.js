@@ -118,9 +118,20 @@ const post = async (req, res) => {
       const info = await transporter.sendMail({
         from: email,
         to: freelancer.emailFreelancer,
-        subject: service.title,
-        text: "Novo Serviço Solicitado",
-        html: `<b>Descrição: ${service.description}</b>`,
+        subject: `UpFreela - Novo serviço solicitado: ${service.title}`,
+        html: `
+        <h2>${service.title}</h2>
+        <b>Descrição:</b> ${service.description}
+        <br></br>
+        <b>Categoria do serviço:</b> ${service.category}
+        <br></br>
+        <b>Quantos dias para conclusão ?</b> ${service.qntDias} dias
+        <br></br>
+        <b>Região:</b>  ${service.regiao}
+        <br></br>
+        Veja informações do serviço em nossa plataforma: <a href="http://localhost:3000/${category}/${title}/${service._id}">clique aqui</a>
+        <br></br>
+        `,
       });
 
       console.log(`Mensagem Enviada: ${info.messageId}`);
