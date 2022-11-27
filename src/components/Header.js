@@ -9,6 +9,7 @@ import {
   Container,
   AppBar,
   Toolbar,
+  Box,
   Typography,
   Button,
   IconButton,
@@ -24,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+    marginTop: '10px'
   },
   headButton: {
     marginRight: '10px'
@@ -36,6 +38,10 @@ const useStyles = makeStyles((theme) => ({
   },
   navBar:{
     backgroundColor: '#031867'
+  },
+  logoNavbar: {
+    height: '100px',
+    width: '100px'
   }
 }));
 
@@ -52,10 +58,13 @@ export default function ButtonAppBar() {
       <AppBar position="static" elevation={3} className={classes.navBar}>
         <Container maxWidth="lg">
           <Toolbar>
-            <Typography variant="h6" className={classes.title}>
-              UpFreela
+
+            <Typography variant="h6" className={classes.title}> 
+              <a href={'/'} passHref className={classes.serviceLink}>
+                <img src="/imgs/UpFreelaBranco.png" className={classes.logoNavbar}/>
+              </a>
             </Typography>
-            
+
             {/* se tiver session vai para a pagina de publish, se nao leva para signin */}
             <Link href={session ? '/user/publish' : '/auth/signin'} passHref> 
               <Button color="inherit" variant="outlined" className={classes.headButton}>

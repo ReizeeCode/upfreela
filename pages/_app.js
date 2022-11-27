@@ -14,7 +14,8 @@ export default function MyApp(props) {
   return (
     <React.Fragment>
       <Head>
-        <title>My page</title>
+        <title>UpFreela</title>
+        <link rel='icon' href='/imgs/IconeUp.ico'></link>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
       {/* session é a sessão do usuário, é criada automaticamente pelo next quando o user abre a pagina e passa para o Provider do próprio next-auth*/}
