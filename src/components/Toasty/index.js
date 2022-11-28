@@ -22,7 +22,7 @@ const Toasty = ({ open, text, severity, onClose = null }) => {
                 horizontal: 'right',
             }}
             open={open}
-            autoHideDuration={6000} //quanto tempo fica aberto antes de fehcar sozinho, neste caso 6s
+            autoHideDuration={2000} //quanto tempo fica aberto antes de fehcar sozinho, neste caso 6s
             onClose={handleClose}
         >
             <MuiAlert elevation={6} variant="filled" severity={severity}>

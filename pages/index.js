@@ -111,7 +111,7 @@ export async function getServerSideProps() {
     await dbConnect()
   
     const services = await ServicesModel.aggregate([{
-      $sample: { size: 6 }
+      $sample: { size: 9 }
     }])
   
     return {
