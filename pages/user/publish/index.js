@@ -58,7 +58,7 @@ const Publish = ({ userId, image }) => {
     const formData = new FormData() // auxilia enviar os dados de forma correta
 
     // percorre os valores, e para cada valor armazena no field    
-    for(let field in values) {
+    for (let field in values) {
       if (field === 'files') { // verifica se é o array de imagens
         values.files.forEach(file => {
           formData.append('files', file) // insere mais um item
@@ -137,10 +137,34 @@ const Publish = ({ userId, image }) => {
                         fullWidth
                         onChange={handleChange}
                       >
-                        <MenuItem value="Pintura">Pintura</MenuItem>
+                        <MenuItem value="Advocacia">Advocacia</MenuItem>
+                        <MenuItem value="Assistente virtual">Assistente virtual</MenuItem>
+                        <MenuItem value="Aulas particulares">Aulas particulares</MenuItem>
+                        <MenuItem value="Coach">Coach</MenuItem>
+                        <MenuItem value="Confecção de bolos de doces">Confecção de bolos de doces</MenuItem>
+                        <MenuItem value="Construção">Construção</MenuItem>
+                        <MenuItem value="Consultoria">Consultoria</MenuItem>
+                        <MenuItem value="Costura e reparos de vestuário">Costura e reparos de vestuário</MenuItem>
+                        <MenuItem value="Cuidador de pets">Cuidador de pets</MenuItem>
+                        <MenuItem value="Decoração de casas">Decoração de casas</MenuItem>
+                        <MenuItem value="Decoração de festas">Decoração de festas</MenuItem>
+                        <MenuItem value="Designer Gráfico">Designer Gráfico</MenuItem>
+                        <MenuItem value="Edição de vídeos">Edição de vídeos</MenuItem>
                         <MenuItem value="Eletricista">Eletricista</MenuItem>
-                        <MenuItem value="Pedreiro">Pedreiro</MenuItem>
-                        <MenuItem value="Encanador">Encanador</MenuItem>
+                        <MenuItem value="Fotografia">Fotografia</MenuItem>
+                        <MenuItem value="Manutenção de aparelhos eletrônicos">Manutenção de aparelhos eletrônicos</MenuItem>
+                        <MenuItem value="Marketing digital e produção de conteúdos para internet">Marketing digital e produção de conteúdos para internet</MenuItem>
+                        <MenuItem value="Personal">Personal</MenuItem>
+                        <MenuItem value="Personal stylist e Personal buyer">Personal stylist e Personal buyer</MenuItem>
+                        <MenuItem value="Pintura">Pintura</MenuItem>
+                        <MenuItem value="Produtor de conteúdo">Produtor de conteúdo</MenuItem>
+                        <MenuItem value="Produção e organização de eventos">Produção e organização de eventos</MenuItem>
+                        <MenuItem value="Programador de softwares">Programador de softwares</MenuItem>
+                        <MenuItem value="Psicólogos">Psicólogos</MenuItem>
+                        <MenuItem value="Segurança">Segurança</MenuItem>
+                        <MenuItem value="Serviços de manutenção doméstica">Serviços de manutenção doméstica</MenuItem>
+                        <MenuItem value="Tradutor">Tradutor</MenuItem>
+                        <MenuItem value="Treinador esportivo pessoal">Treinador esportivo pessoal</MenuItem>
                       </Select>
                       <FormHelperText>
                         {errors.category && touched.category ? errors.category : null}
@@ -299,7 +323,7 @@ const Publish = ({ userId, image }) => {
                         <MenuItem value="Litoral Sul Paulista">Litoral Sul Paulista</MenuItem>
                         <MenuItem value="Macro Metropolitana Paulista">Macro Metropolitana Paulista</MenuItem>
                         <MenuItem value="Marília">Marília</MenuItem>
-                        <MenuItem value="Metropolitana de São Paulo">Metropolitana de São Paulo</MenuItem> 
+                        <MenuItem value="Metropolitana de São Paulo">Metropolitana de São Paulo</MenuItem>
                         <MenuItem value="Piracicaba">Piracicaba</MenuItem>
                         <MenuItem value="Presidente Prudente">Presidente Prudente</MenuItem>
                         <MenuItem value="Ribeirão Preto">Ribeirão Preto</MenuItem>
@@ -319,7 +343,7 @@ const Publish = ({ userId, image }) => {
                   <Box textAlign="right">
                     {
                       isSubmitting
-                        ? <CircularProgress/>
+                        ? <CircularProgress />
                         : <Button type="submit" variant="contained" color="primary">Publicar Anúncio</Button>
                     }
                   </Box>
