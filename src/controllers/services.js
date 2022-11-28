@@ -120,6 +120,7 @@ const post = async (req, res) => {
         from: email,
         to: freelancer.emailFreelancer,
         subject: `UpFreela - Novo serviço solicitado: ${service.title}`,
+        text: "Novo Serviço Solicitado",
         html: `
         <h2>${service.title}</h2>
         <b>Descrição:</b> ${service.description}
@@ -133,6 +134,7 @@ const post = async (req, res) => {
         Veja informações do serviço em nossa plataforma: <a href="http://localhost:3000/${category}/${title}/${service._id}">clique aqui</a>
         <br></br>
         `,
+        
       });
 
       console.log(`Mensagem Enviada: ${info.messageId}`);
@@ -146,7 +148,7 @@ const post = async (req, res) => {
   });
 };
 
-const update = async () => {
+const update = async (req, res) => {
   await dbConnect();
 
   const { id } = req.query;
@@ -204,8 +206,12 @@ const update = async () => {
 
     try {
       await ServicesModel.updateOne({ _id: id }, serviceUpdated);
-
-  console.log(id);
+      return res.status(201).json({ success: true });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: error.message });
+    }
+  });
 };
 
 const remove = async (req, res) => {

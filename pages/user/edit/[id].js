@@ -1,5 +1,8 @@
-import { Formik } from "formik";
-import axios from "axios";
+import { Formik } from 'formik'
+import { useRouter } from 'next/router'
+// import { getSession } from 'next-auth/client'
+// import { useSession } from 'next-auth/client'
+import axios from 'axios'
 
 import {
   Container,
@@ -15,36 +18,43 @@ import {
   CircularProgress,
 } from "@material-ui/core";
 
-import { makeStyles } from "@material-ui/core/styles";
+// import { makeStyles } from "@material-ui/core/styles";
 
 import FileUpload from "../../../src/components/FileUpload";
 import TemplateDefault from "../../../src/templates/Default";
-
-import { validationSchema } from "../publish/formValues";
-
+// import { validationSchema } from "./formValues";
 import useToasty from "../../../src/contexts/Toasty";
-
 import services from "../../../src/models/services";
 import dbConnect from "../../../src/utils/dbConnect";
+import { initialValues, validationSchema } from './formValues'
 
-const useStyles = makeStyles((theme) => ({
-  ButtonAdd: {
-    margin: "30px auto 50px auto",
-    display: "incline-block",
-  },
-  serviceLink: {
-    textDecoration: "none !important",
-  },
-}));
+import useStyles from './styles'
+
+
+// const useStyles = makeStyles((theme) => ({
+//   ButtonAdd: {
+//     margin: "30px auto 50px auto",
+//     display: "incline-block",
+//   },
+//   serviceLink: {
+//     textDecoration: "none !important",
+//   },
+// }));
 
 const Edit = ({ service }) => {
   const classes = useStyles();
   const { setToasty } = useToasty();
 
+  const router = useRouter()
+
+  // const formValues = {
+  //   ...initialValues,
+  // }
+
   const handleSuccess = () => {
     setToasty({
       open: true,
-      text: "Anúncio Atualizado com sucesso com sucesso",
+      text: "Anúncio atualizado com sucesso",
       severity: "success",
     });
     router.push("/user/dashboard");
@@ -94,6 +104,18 @@ const Edit = ({ service }) => {
 
     console.log("Chamada da api com o put(Editar)");
     // await axios.put(`/auth/services/editar/${service._id}`, formData);
+
+    axios
+      .put(`/api/services/editar/${service._id}`, formData)
+      .then(({ data }) => {
+        handleSuccess();
+      })
+      .catch((error) => {
+        console.log("Ocorreu um ERRO!");
+        console.log(error);
+        handleError();
+      });
+
   }
 
   return (
@@ -120,88 +142,81 @@ const Edit = ({ service }) => {
                 <Input type="hidden" name="userId" value={values.userId} />
                 <Input type="hidden" name="image" value={values.image} />
 
-              <Container maxWidth='sm'>
-                <Typography
-                  component='h1'
-                  variant='h2'
-                  align='center'
-                  color='textPrimary'
-                >
-                  Publicar Anúncio
-                </Typography>
-                <Typography
-                  component='h5'
-                  variant='h5'
-                  align='center'
-                  color='textPrimary'
-                >
-                  Quanto mais detalhado, melhor!
-                </Typography>
-              </Container>
-              <br />
-              <br />
-              <Container maxWidth='md' className={classes.boxContainer}>
-                <Box className={classes.box}>
-                  <FormControl error={errors.title && touched.title} fullWidth>
-                    <InputLabel className={classes.inputLabel}>
-                      Título do Anúncio
-                    </InputLabel>
-                    <Input
-                      name='title'
-                      value={values?.title}
-                      label='ex.: Preciso de um Pintor para uma parede 4X4'
-                    />
-                    <FormHelperText>
-                      {errors.title && touched.title ? errors.title : null}
-                    </FormHelperText>
-                  </FormControl>
-                  <br /> <br />
-                  <FormControl
-                    error={errors.category && touched.category}
-                    fullWidth
+                <Container maxWidth='sm'>
+                  <Typography
+                    component='h1'
+                    variant='h2'
+                    align='center'
+                    color='textPrimary'
                   >
-                    <InputLabel className={classes.inputLabel}>
-                      Serviço
-                    </InputLabel>
-                    <Select
-                      name='category'
-                      value={values?.category}
+                    Editar Anúncio
+                  </Typography>
+                </Container>
+                <br />
+                <br />
+                <Container maxWidth='md' className={classes.boxContainer}>
+                  <Box className={classes.box}>
+                    <FormControl error={errors.title && touched.title} fullWidth>
+                      <InputLabel className={classes.inputLabel}>
+                        Título do Anúncio
+                      </InputLabel>
+                      <Input
+                        name='title'
+                        value={values?.title}
+                        label='ex.: Preciso de um Pintor para uma parede 4X4'
+                        onChange={handleChange}
+                      />
+                      <FormHelperText>
+                        {errors.title && touched.title ? errors.title : null}
+                      </FormHelperText>
+                    </FormControl>
+                    <br /> <br />
+                    <FormControl
+                      error={errors.category && touched.category}
                       fullWidth
-                      onChange={handleChange}
                     >
-                      <MenuItem value='Pintura'>Pintura</MenuItem>
-                      <MenuItem value='Eletricista'>Eletricista</MenuItem>
-                      <MenuItem value='Pedreiro'>Pedreiro</MenuItem>
-                      <MenuItem value='Encanador'>Encanador</MenuItem>
-                    </Select>
-                    <FormHelperText>
-                      {errors.category && touched.category
-                        ? errors.category
-                        : null}
-                    </FormHelperText>
-                  </FormControl>
-                  <br /> <br />
-                  <FormControl
-                    error={errors.qntDias && touched.qntDias}
-                    fullWidth
-                  >
-                    <InputLabel className={classes.inputLabel}>
-                      Quantidade de dias
-                    </InputLabel>
-                    <Input
-                      name='qntDias'
-                      value={values?.qntDias}
-                      onChange={handleChange}
-                    />
-                    <FormHelperText>
-                      {errors.qntDias && touched.qntDias
-                        ? errors.qntDias
-                        : null}
-                    </FormHelperText>
-                  </FormControl>
-                  <br /> <br />
-                </Box>
-              </Container>
+                      <InputLabel className={classes.inputLabel}>
+                        Serviço
+                      </InputLabel>
+                      <Select
+                        name='category'
+                        value={values?.category}
+                        fullWidth
+                        onChange={handleChange}
+                      >
+                        <MenuItem value='Pintura'>Pintura</MenuItem>
+                        <MenuItem value='Eletricista'>Eletricista</MenuItem>
+                        <MenuItem value='Pedreiro'>Pedreiro</MenuItem>
+                        <MenuItem value='Encanador'>Encanador</MenuItem>
+                      </Select>
+                      <FormHelperText>
+                        {errors.category && touched.category
+                          ? errors.category
+                          : null}
+                      </FormHelperText>
+                    </FormControl>
+                    <br /> <br />
+                    <FormControl
+                      error={errors.qntDias && touched.qntDias}
+                      fullWidth
+                    >
+                      <InputLabel className={classes.inputLabel}>
+                        Quantidade de dias
+                      </InputLabel>
+                      <Input
+                        name='qntDias'
+                        value={values?.qntDias}
+                        onChange={handleChange}
+                      />
+                      <FormHelperText>
+                        {errors.qntDias && touched.qntDias
+                          ? errors.qntDias
+                          : null}
+                      </FormHelperText>
+                    </FormControl>
+                    <br /> <br />
+                  </Box>
+                </Container>
 
                 {/* Container de Imagens */}
                 {/* A lógica de upload de imagenm, os componentes visuais e seus estilos estão sendo importados, onde são enviados da pasta src/components/FileUpload/ */}
@@ -227,6 +242,7 @@ const Edit = ({ service }) => {
                         rows={6}
                         variant="outlined"
                         onChange={handleChange}
+                        value={values?.description}
                       />
                       <FormHelperText>
                         {errors.description && touched.description ? errors.description : null}
@@ -336,7 +352,7 @@ const Edit = ({ service }) => {
                         <MenuItem value="Litoral Sul Paulista">Litoral Sul Paulista</MenuItem>
                         <MenuItem value="Macro Metropolitana Paulista">Macro Metropolitana Paulista</MenuItem>
                         <MenuItem value="Marília">Marília</MenuItem>
-                        <MenuItem value="Metropolitana de São Paulo">Metropolitana de São Paulo</MenuItem> 
+                        <MenuItem value="Metropolitana de São Paulo">Metropolitana de São Paulo</MenuItem>
                         <MenuItem value="Piracicaba">Piracicaba</MenuItem>
                         <MenuItem value="Presidente Prudente">Presidente Prudente</MenuItem>
                         <MenuItem value="Ribeirão Preto">Ribeirão Preto</MenuItem>
@@ -352,26 +368,28 @@ const Edit = ({ service }) => {
                   </Box>
                 </Container>
 
-              <Container maxWidth='md' className={classes.boxContainer}>
-                <Box textAlign='right'>
-                  {isSubmitting ? (
-                    <CircularProgress />
-                  ) : (
-                    <Button type='submit' variant='contained' color='primary'>
-                      Publicar Anúncio
-                    </Button>
-                  )}
-                </Box>
-              </Container>
-            </form>
-          </>
-        )}
+                <Container maxWidth='md' className={classes.boxContainer}>
+                  <Box textAlign='right'>
+                    {isSubmitting ? (
+                      <CircularProgress />
+                    ) : (
+                      <Button type='submit' variant='contained' color='primary'>
+                        Publicar Anúncio
+                      </Button>
+                    )}
+                  </Box>
+                </Container>
+              </form>
+            )
+          }
+        }
       </Formik>
 
-    </TemplateDefault >
+    </TemplateDefault>
   )
-
 };
+
+// Edit.requireAuth = true
 
 export async function getServerSideProps({ query, service }) {
   const id = query.id;

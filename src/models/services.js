@@ -54,4 +54,4 @@ const schema = new mongoose.Schema({
   },
 });
 
-export default mongoose.models.services || mongoose.model("services", schema);
+export default mongoose.models.services || mongoose.model('services', schema);
