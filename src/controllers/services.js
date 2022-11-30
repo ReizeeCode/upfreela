@@ -127,7 +127,7 @@ const post = async (req, res) => {
         <br></br>
         <b>Categoria do serviço:</b> ${service.category}
         <br></br>
-        <b>Quantos dias para conclusão ?</b> ${service.qntDias} dias
+        <b>Quantos dias para conclusão:</b> ${service.qntDias} dias
         <br></br>
         <b>Região:</b>  ${service.regiao}
         <br></br>

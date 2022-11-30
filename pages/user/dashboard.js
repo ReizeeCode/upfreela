@@ -44,12 +44,15 @@ const Home = ({ services }) => {
   const [removedServices, setRemovedServices] = useState([]);
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
 
+  // remoção do anuncio
   const handleCloseModal = () => setOpenConfirmModal(false);
 
   const handleClickRemove = (serviceId) => {
     setServiceId(serviceId);
     setOpenConfirmModal(true);
   };
+
+  
 
   const handleClickEdit = (serviceId) => {
     router.push(`/user/edit/${serviceId}`);
@@ -144,11 +147,14 @@ const Home = ({ services }) => {
             return (
               <Grid key={service._id} item xs={12} sm={6} md={4}>
                 <Card
+                // 3
                   image={`/uploads/${service.files[0].name}`}
                   title={service.title}
                   subtitle={service.qntDias}
                   category={service.category}
                   actions={
+                    
+                    // 1
                     <>
                       <Button
                         size='small'
@@ -190,7 +196,7 @@ Home.requireAuth = true;
 
 export async function getServerSideProps({ req }) {
   const session = await getSession({ req });
-  //conectando no banco
+  //conectando no banco - 2
   await dbConnect();
 
   const services = await ServicesModel.find({ "user.id": session.userId });

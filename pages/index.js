@@ -76,6 +76,7 @@ const Home = ({ services }) => {
                 <br />
                 <Grid container spacing={4}> {/* espaçamento entre os containers */}
                     {
+                        // 2
                         services.map(service =>{
                             const category = slugify(service.category).toLocaleLowerCase()
                             const title = slugify(service.title).toLocaleLowerCase()
@@ -110,8 +111,9 @@ const Home = ({ services }) => {
 export async function getServerSideProps() {
     await dbConnect()
   
+    // 1
     const services = await ServicesModel.aggregate([{
-      $sample: { size: 9 }
+      $sample: { size: 6 }
     }])
   
     return {
